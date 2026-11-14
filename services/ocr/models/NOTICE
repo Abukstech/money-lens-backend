@@ -1,0 +1,10 @@
+PaddleOCR PP-OCRv5 mobile detection and English recognition models.
+Upstream weights: Baidu and the applicable PaddleOCR rights holders.
+Converted to ONNX and distributed by the RapidOCR project under Apache-2.0.
+MoneyLens redistributes the verified ONNX files without modifying the weights.
+
+Model registry:
+https://github.com/RapidAI/RapidOCR/blob/v3.10.0/python/rapidocr/default_models.yaml
+
+Model attribution:
+https://rapidai.github.io/RapidOCRDocs/main/en/model_licenses/

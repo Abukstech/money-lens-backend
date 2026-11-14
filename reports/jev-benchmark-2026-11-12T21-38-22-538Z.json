@@ -1,0 +1,83 @@
+{
+  "summary": {
+    "benchmarkType": "live_jev_classifier_what_if_calibrated",
+    "note": "Simulated semanticAutoEnabled=true ONLY in this test; production setting unchanged",
+    "evaluated": 2,
+    "availableFixtures": 200,
+    "providerAnswered": 2,
+    "providerErrorsOrEarlyBlocks": 0,
+    "rawModelAccuracy": 0.5,
+    "potentialAutoCoverage": 0,
+    "potentialAutoPrecision": null,
+    "automaticAccepted": 0,
+    "automaticCorrect": 0,
+    "requiresUserTagging": 2,
+    "unsafeOrNonJevAutoAccepted": 0,
+    "totalInputTokens": 2554,
+    "totalOutputTokens": 533,
+    "confidenceBands": [
+      {
+        "band": "<0.75",
+        "count": 2,
+        "correct": 1,
+        "accuracy": 0.5
+      },
+      {
+        "band": "0.75–0.89",
+        "count": 0,
+        "correct": 0,
+        "accuracy": null
+      },
+      {
+        "band": "0.90–0.94",
+        "count": 0,
+        "correct": 0,
+        "accuracy": null
+      },
+      {
+        "band": "0.95–1.00",
+        "count": 0,
+        "correct": 0,
+        "accuracy": null
+      }
+    ]
+  },
+  "rows": [
+    {
+      "id": "synthetic-7-1",
+      "expected": "telecommunications",
+      "predicted": "telecommunications",
+      "finalCategory": "unknown",
+      "suggestedCategory": null,
+      "status": "requires_user_tagging",
+      "reasonCode": "LOW_CONFIDENCE",
+      "confidence": 0.57,
+      "choiceProbability": 0.58,
+      "acceptanceScore": 0.57,
+      "jevInvoked": true,
+      "processorOnly": false,
+      "reversal": false,
+      "durationMs": 697,
+      "inputTokens": 1225,
+      "outputTokens": 268
+    },
+    {
+      "id": "synthetic-23-0",
+      "expected": "refund",
+      "predicted": "unknown",
+      "finalCategory": "unknown",
+      "suggestedCategory": null,
+      "status": "requires_user_tagging",
+      "reasonCode": "REFUND_RECONCILIATION_REQUIRED",
+      "confidence": 0.47,
+      "choiceProbability": 0.49,
+      "acceptanceScore": 0.47,
+      "jevInvoked": true,
+      "processorOnly": false,
+      "reversal": true,
+      "durationMs": 311,
+      "inputTokens": 1329,
+      "outputTokens": 265
+    }
+  ]
+}

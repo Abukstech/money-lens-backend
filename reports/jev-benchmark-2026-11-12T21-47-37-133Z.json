@@ -1,0 +1,101 @@
+{
+  "summary": {
+    "benchmarkType": "live_jev_classifier_what_if_calibrated",
+    "note": "Simulated semanticAutoEnabled=true ONLY in this test; production setting unchanged",
+    "evaluated": 3,
+    "availableFixtures": 200,
+    "providerAnswered": 3,
+    "providerErrorsOrEarlyBlocks": 0,
+    "rawModelAccuracy": 1,
+    "potentialAutoCoverage": 0.3333,
+    "potentialAutoPrecision": 1,
+    "automaticAccepted": 1,
+    "automaticCorrect": 1,
+    "requiresUserTagging": 2,
+    "unsafeOrNonJevAutoAccepted": 0,
+    "totalInputTokens": 4137,
+    "totalOutputTokens": 798,
+    "confidenceBands": [
+      {
+        "band": "<0.75",
+        "count": 0,
+        "correct": 0,
+        "accuracy": null
+      },
+      {
+        "band": "0.75–0.89",
+        "count": 1,
+        "correct": 1,
+        "accuracy": 1
+      },
+      {
+        "band": "0.90–0.94",
+        "count": 1,
+        "correct": 1,
+        "accuracy": 1
+      },
+      {
+        "band": "0.95–1.00",
+        "count": 1,
+        "correct": 1,
+        "accuracy": 1
+      }
+    ]
+  },
+  "rows": [
+    {
+      "id": "synthetic-3-0",
+      "expected": "transport",
+      "predicted": "transport",
+      "finalCategory": "unknown",
+      "suggestedCategory": "transport",
+      "status": "requires_user_tagging",
+      "reasonCode": "EVIDENCE_ACCEPTED",
+      "confidence": 0.77,
+      "choiceProbability": 0.78,
+      "acceptanceScore": 0.77,
+      "jevInvoked": true,
+      "processorOnly": false,
+      "reversal": false,
+      "durationMs": 2088,
+      "inputTokens": 1339,
+      "outputTokens": 265
+    },
+    {
+      "id": "synthetic-7-1",
+      "expected": "telecommunications",
+      "predicted": "telecommunications",
+      "finalCategory": "telecommunications",
+      "suggestedCategory": "telecommunications",
+      "status": "auto_classified",
+      "reasonCode": "EVIDENCE_ACCEPTED",
+      "confidence": 0.91,
+      "choiceProbability": 0.91,
+      "acceptanceScore": 0.91,
+      "jevInvoked": true,
+      "processorOnly": false,
+      "reversal": false,
+      "durationMs": 318,
+      "inputTokens": 1347,
+      "outputTokens": 268
+    },
+    {
+      "id": "synthetic-23-0",
+      "expected": "refund",
+      "predicted": "refund",
+      "finalCategory": "unknown",
+      "suggestedCategory": "refund",
+      "status": "requires_user_tagging",
+      "reasonCode": "REFUND_RECONCILIATION_REQUIRED",
+      "confidence": 1,
+      "choiceProbability": 1,
+      "acceptanceScore": 1,
+      "jevInvoked": true,
+      "processorOnly": false,
+      "reversal": true,
+      "durationMs": 388,
+      "inputTokens": 1451,
+      "outputTokens": 265
+    }
+  ]
+}

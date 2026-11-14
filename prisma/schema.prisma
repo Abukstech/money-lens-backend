@@ -1,0 +1,323 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+    shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
+}
+
+model User {
+  id              String                    @id @default(uuid())
+  email           String                    @unique
+  firstName       String?
+  emailVerifiedAt DateTime?
+  passwordHash    String
+  createdAt       DateTime                  @default(now())
+  sessions        Session[]
+  statements      Statement[]
+  transactions    Transaction[]
+  rules           RecipientRule[]
+  monthlyContexts MonthlyFinancialContext[]
+}
+
+model Session {
+  id        String    @id @default(uuid())
+  userId    String
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tokenHash String    @unique
+  expiresAt DateTime
+  revokedAt DateTime?
+  createdAt DateTime  @default(now())
+
+  @@index([userId])
+}
+
+model Statement {
+  id             String        @id @default(uuid())
+  userId         String
+  user           User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  fingerprint    String
+  status         String        @default("extracting")
+  errorCode      String?
+  leaseToken     String?
+  leaseExpiresAt DateTime?
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+  transactions   Transaction[]
+
+  @@unique([userId, fingerprint])
+}
+
+model Transaction {
+  id                  String                   @id @default(uuid())
+  userId              String
+  user                User                     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  statementId         String?
+  statement           Statement?               @relation(fields: [statementId], references: [id], onDelete: Cascade)
+  sourceRow           String
+  date                DateTime                 @db.Date
+  description         String
+  amount              Decimal                  @db.Decimal(20, 2)
+  direction           String
+  currency            String                   @default("NGN")
+  balance             Decimal?                 @db.Decimal(20, 2)
+  referenceHash       String?
+  accountHash         String?
+  recipientHash       String?
+  page                Int?
+  row                 Int?
+  validationIssues    String[]                 @default([])
+  category            String                   @default("unknown")
+  suggestedCategory   String?
+  status              String                   @default("pending")
+  source              String                   @default("none")
+  confidence          Float?
+  merchantId          String?
+  channel             String?
+  economicType        String                   @default("unresolved")
+  linkedTransactionId String?
+  jevInvoked          Boolean                  @default(false)
+  modelVersion        String?
+  inputTokens         Int                      @default(0)
+  outputTokens        Int                      @default(0)
+  latencyMs           Int?
+  ontologyVersion     String                   @default("1.0.0")
+  policyVersion       String                   @default("1.0.0-conservative")
+  datasetChecksum     String?
+  revision            Int                      @default(0)
+  classifiedAt        DateTime?
+  createdAt           DateTime                 @default(now())
+  updatedAt           DateTime                 @updatedAt
+  history             ClassificationRevision[]
+  tasks               ClassificationTask[]
+
+  @@unique([userId, sourceRow])
+  @@index([userId, status])
+  @@index([userId, date])
+  @@index([userId, linkedTransactionId])
+  @@index([userId, recipientHash])
+}
+
+model ClassificationRevision {
+  id                  String      @id @default(uuid())
+  transactionId       String
+  transaction         Transaction @relation(fields: [transactionId], references: [id], onDelete: Cascade)
+  revision            Int
+  category            String
+  suggestedCategory   String?
+  status              String
+  source              String
+  confidence          Float?
+  merchantId          String?
+  linkedTransactionId String?
+  channel             String?
+  economicType        String
+  jevInvoked          Boolean
+  modelVersion        String?
+  ontologyVersion     String
+  policyVersion       String
+  datasetChecksum     String?
+  inputTokens         Int         @default(0)
+  outputTokens        Int         @default(0)
+  reasonCode          String
+  createdAt           DateTime    @default(now())
+
+  @@unique([transactionId, revision])
+}
+
+model RecipientRule {
+  id              String         @id @default(uuid())
+  userId          String
+  user            User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  recipientHash   String
+  category        String
+  direction       String
+  currency        String         @default("NGN")
+  minAmount       Decimal        @db.Decimal(20, 2)
+  maxAmount       Decimal        @db.Decimal(20, 2)
+  narrationTokens String[]
+  version         Int            @default(1)
+  deletedAt       DateTime?
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+  history         RuleRevision[]
+
+  @@index([userId, recipientHash])
+}
+
+model RuleRevision {
+  id              String        @id @default(uuid())
+  ruleId          String
+  rule            RecipientRule @relation(fields: [ruleId], references: [id], onDelete: Cascade)
+  version         Int
+  category        String
+  direction       String
+  currency        String
+  minAmount       Decimal       @db.Decimal(20, 2)
+  maxAmount       Decimal       @db.Decimal(20, 2)
+  narrationTokens String[]
+  deleted         Boolean       @default(false)
+  createdAt       DateTime      @default(now())
+
+  @@unique([ruleId, version])
+}
+
+model ClassificationTask {
+  id               String      @id @default(uuid())
+  transactionId    String
+  transaction      Transaction @relation(fields: [transactionId], references: [id], onDelete: Cascade)
+  revision         Int
+  status           String      @default("pending")
+  lastDispatchedAt DateTime?
+  createdAt        DateTime    @default(now())
+
+  @@unique([transactionId, revision])
+  @@index([status, lastDispatchedAt])
+}
+
+model EmailChallenge {
+  id              String    @id @default(uuid())
+  email           String
+  purpose         String
+  codeHash        String
+  eligible        Boolean
+  attempts        Int       @default(0)
+  expiresAt       DateTime
+  consumedAt      DateTime?
+  grantHash       String?   @unique
+  grantExpiresAt  DateTime?
+  grantConsumedAt DateTime?
+  createdAt       DateTime  @default(now())
+
+  @@unique([email, purpose])
+}
+
+model AuthRateBucket {
+  key             String   @id
+  count           Int
+  windowStartedAt DateTime
+  lastRequestedAt DateTime
+}
+
+model MonthlyFinancialContext {
+  id                        String   @id @default(uuid())
+  userId                    String
+  user                      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  month                     String
+  currency                  String   @default("NGN")
+  takeHomeIncome            Decimal? @db.Decimal(20, 2)
+  savingsTarget             Decimal? @db.Decimal(20, 2)
+  spendingCoverageConfirmed Boolean  @default(false)
+  createdAt                 DateTime @default(now())
+  updatedAt                 DateTime @updatedAt
+
+  @@unique([userId, month])
+}
+
+enum ExtractionDraftStatus {
+  DRAFT
+  NEEDS_REVIEW
+  VALIDATED
+  VERIFIED
+  RELEASED
+}
+
+enum ExtractionReviewDecision {
+  candidate_pass
+  needs_review
+}
+
+enum ExtractionDirection {
+  debit
+  credit
+}
+
+enum ExtractionReleaseMode {
+  automatic_candidate
+  manual_verified
+}
+
+model StatementExtractionDraft {
+  id                  String                   @id @default(cuid())
+
+  // Resolved by the backend from the authorized
+  // client/account workspace, never trusted from
+  // an arbitrary request body.
+  accountScopeId      String
+  createdByUserId     String
+
+  // Optional link to your existing statement record.
+  sourceStatementId   String?
+
+  documentHash        String                   @db.VarChar(64)
+  revision            String                   @db.VarChar(64)
+  version             Int                      @default(1)
+
+  status              ExtractionDraftStatus    @default(DRAFT)
+  reviewDecision      ExtractionReviewDecision
+  reviewReasons       Json
+  extractionEvidence  Json
+
+  releasedRevision    String?                  @db.VarChar(64)
+  releaseMode         ExtractionReleaseMode?
+  releasedAt          DateTime?
+
+  rows                StatementExtractionRow[]
+  approvals           StatementExtractionApproval[]
+
+  createdAt           DateTime                 @default(now())
+  updatedAt           DateTime                 @updatedAt
+
+  @@index([accountScopeId, status])
+  @@index([sourceStatementId])
+}
+
+model StatementExtractionRow {
+  id                  String                   @id @default(cuid())
+
+  draftId             String
+  draft               StatementExtractionDraft @relation(fields: [draftId], references: [id], onDelete: Cascade)
+
+  // Original order in the extracted statement.
+  position            Int
+
+  date                String                   @db.VarChar(10)
+  description         String
+  amount              Decimal                  @db.Decimal(20, 2)
+  direction           ExtractionDirection
+  currency            String                   @default("NGN")
+  balance             Decimal?                 @db.Decimal(20, 2)
+
+  reference           String?
+  accountIdentifier   String?
+  recipientIdentifier String?
+
+  page                Int
+  row                 Int
+
+  createdAt           DateTime                 @default(now())
+  updatedAt           DateTime                 @updatedAt
+
+  @@unique([draftId, position])
+  @@index([draftId])
+}
+
+model StatementExtractionApproval {
+  id                         String                   @id @default(cuid())
+
+  draftId                    String
+  draft                      StatementExtractionDraft @relation(fields: [draftId], references: [id], onDelete: Cascade)
+
+  reviewerId                 String
+  approvedRevision           String                   @db.VarChar(64)
+
+  sourceDocumentChecked      Boolean
+  allTransactionsConfirmed   Boolean
+  confirmedTransactionCount  Int
+
+  approvedAt                 DateTime                 @default(now())
+
+  @@index([draftId, approvedAt])
+}

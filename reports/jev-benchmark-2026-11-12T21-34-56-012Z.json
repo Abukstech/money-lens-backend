@@ -1,0 +1,65 @@
+{
+  "summary": {
+    "benchmarkType": "live_jev_classifier_what_if_calibrated",
+    "note": "Simulated semanticAutoEnabled=true ONLY in this test; production setting unchanged",
+    "evaluated": 1,
+    "availableFixtures": 200,
+    "providerAnswered": 1,
+    "providerErrorsOrEarlyBlocks": 0,
+    "rawModelAccuracy": 1,
+    "potentialAutoCoverage": 0,
+    "potentialAutoPrecision": null,
+    "automaticAccepted": 0,
+    "automaticCorrect": 0,
+    "requiresUserTagging": 1,
+    "unsafeOrNonJevAutoAccepted": 0,
+    "totalInputTokens": 1217,
+    "totalOutputTokens": 265,
+    "confidenceBands": [
+      {
+        "band": "<0.75",
+        "count": 1,
+        "correct": 1,
+        "accuracy": 1
+      },
+      {
+        "band": "0.75–0.89",
+        "count": 0,
+        "correct": 0,
+        "accuracy": null
+      },
+      {
+        "band": "0.90–0.94",
+        "count": 0,
+        "correct": 0,
+        "accuracy": null
+      },
+      {
+        "band": "0.95–1.00",
+        "count": 0,
+        "correct": 0,
+        "accuracy": null
+      }
+    ]
+  },
+  "rows": [
+    {
+      "id": "synthetic-3-0",
+      "expected": "transport",
+      "predicted": "transport",
+      "finalCategory": "unknown",
+      "suggestedCategory": null,
+      "status": "requires_user_tagging",
+      "reasonCode": "LOW_CONFIDENCE",
+      "confidence": 0.54,
+      "choiceProbability": 0.56,
+      "acceptanceScore": 0.54,
+      "jevInvoked": true,
+      "processorOnly": false,
+      "reversal": false,
+      "durationMs": 879,
+      "inputTokens": 1217,
+      "outputTokens": 265
+    }
+  ]
+}

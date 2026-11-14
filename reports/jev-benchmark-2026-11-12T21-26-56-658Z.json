@@ -1,0 +1,137 @@
+{
+  "summary": {
+    "benchmarkType": "live_jev_classifier_what_if_calibrated",
+    "note": "Simulated semanticAutoEnabled=true ONLY in this test; production setting unchanged",
+    "evaluated": 5,
+    "availableFixtures": 200,
+    "providerAnswered": 5,
+    "providerErrorsOrEarlyBlocks": 0,
+    "rawModelAccuracy": 0.2,
+    "potentialAutoCoverage": 0,
+    "potentialAutoPrecision": null,
+    "automaticAccepted": 0,
+    "automaticCorrect": 0,
+    "requiresUserTagging": 5,
+    "unsafeOrNonJevAutoAccepted": 0,
+    "totalInputTokens": 6320,
+    "totalOutputTokens": 1325,
+    "confidenceBands": [
+      {
+        "band": "<0.75",
+        "count": 5,
+        "correct": 1,
+        "accuracy": 0.2
+      },
+      {
+        "band": "0.75–0.89",
+        "count": 0,
+        "correct": 0,
+        "accuracy": null
+      },
+      {
+        "band": "0.90–0.94",
+        "count": 0,
+        "correct": 0,
+        "accuracy": null
+      },
+      {
+        "band": "0.95–1.00",
+        "count": 0,
+        "correct": 0,
+        "accuracy": null
+      }
+    ]
+  },
+  "rows": [
+    {
+      "id": "synthetic-3-0",
+      "expected": "transport",
+      "predicted": "transport",
+      "finalCategory": "unknown",
+      "suggestedCategory": null,
+      "status": "requires_user_tagging",
+      "reasonCode": "LOW_CONFIDENCE",
+      "confidence": 0.5,
+      "choiceProbability": 0.52,
+      "acceptanceScore": 0.5,
+      "jevInvoked": true,
+      "processorOnly": false,
+      "reversal": false,
+      "durationMs": 986,
+      "inputTokens": 1218,
+      "outputTokens": 265
+    },
+    {
+      "id": "synthetic-4-0",
+      "expected": "transport",
+      "predicted": "unknown",
+      "finalCategory": "unknown",
+      "suggestedCategory": null,
+      "status": "requires_user_tagging",
+      "reasonCode": "ADDITIONAL_CONTEXT_REQUIRED",
+      "confidence": 0.6,
+      "choiceProbability": 0.61,
+      "acceptanceScore": 0.6,
+      "jevInvoked": true,
+      "processorOnly": false,
+      "reversal": false,
+      "durationMs": 295,
+      "inputTokens": 1217,
+      "outputTokens": 265
+    },
+    {
+      "id": "synthetic-7-1",
+      "expected": "telecommunications",
+      "predicted": "unknown",
+      "finalCategory": "unknown",
+      "suggestedCategory": null,
+      "status": "requires_user_tagging",
+      "reasonCode": "ADDITIONAL_CONTEXT_REQUIRED",
+      "confidence": 0.5,
+      "choiceProbability": 0.52,
+      "acceptanceScore": 0.5,
+      "jevInvoked": true,
+      "processorOnly": false,
+      "reversal": false,
+      "durationMs": 320,
+      "inputTokens": 1226,
+      "outputTokens": 265
+    },
+    {
+      "id": "synthetic-23-0",
+      "expected": "refund",
+      "predicted": "unknown",
+      "finalCategory": "unknown",
+      "suggestedCategory": null,
+      "status": "requires_user_tagging",
+      "reasonCode": "REFUND_RECONCILIATION_REQUIRED",
+      "confidence": 0.5,
+      "choiceProbability": 0.52,
+      "acceptanceScore": 0.5,
+      "jevInvoked": true,
+      "processorOnly": false,
+      "reversal": true,
+      "durationMs": 286,
+      "inputTokens": 1330,
+      "outputTokens": 265
+    },
+    {
+      "id": "synthetic-23-1",
+      "expected": "refund",
+      "predicted": "unknown",
+      "finalCategory": "unknown",
+      "suggestedCategory": null,
+      "status": "requires_user_tagging",
+      "reasonCode": "REFUND_RECONCILIATION_REQUIRED",
+      "confidence": 0.48,
+      "choiceProbability": 0.5,
+      "acceptanceScore": 0.48,
+      "jevInvoked": true,
+      "processorOnly": false,
+      "reversal": true,
+      "durationMs": 409,
+      "inputTokens": 1329,
+      "outputTokens": 265
+    }
+  ]
+}

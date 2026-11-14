@@ -1,0 +1,55 @@
+services:
+  ocr:
+    build: ./services/ocr
+    environment:
+      PADDLE_OCR_TOKEN: ${PADDLE_OCR_TOKEN:-}
+    ports: ["127.0.0.1:8080:8080"]
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    ulimits:
+      core: { soft: 0, hard: 0 }
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/health', timeout=2)"]
+      interval: 10s
+      timeout: 3s
+      retries: 6
+      start_period: 15s
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: moneylens
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-local-development-only}
+      POSTGRES_DB: moneylens
+    ports: ["127.0.0.1:5432:5432"]
+    volumes: ["postgres-data:/var/lib/postgresql/data"]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U moneylens -d moneylens"]
+      interval: 5s
+      retries: 10
+  migrate:
+    build: { context: ., target: build }
+    environment:
+      DATABASE_URL: postgresql://moneylens:${POSTGRES_PASSWORD:-local-development-only}@db:5432/moneylens
+    command: ["node_modules/.bin/prisma", "migrate", "deploy"]
+    depends_on:
+      db: { condition: service_healthy }
+  api:
+    build: .
+    env_file: .env
+    environment:
+      DATABASE_URL: postgresql://moneylens:${POSTGRES_PASSWORD:-local-development-only}@db:5432/moneylens
+      PADDLE_OCR_URL: ${COMPOSE_PADDLE_OCR_URL:-}
+    ports: ["127.0.0.1:3000:3000"]
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    ulimits:
+      core: { soft: 0, hard: 0 }
+    mem_limit: 768m
+    memswap_limit: 768m
+    pids_limit: 128
+    depends_on:
+      migrate: { condition: service_completed_successfully }
+volumes:
+  postgres-data:

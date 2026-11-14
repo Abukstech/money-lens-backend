@@ -1,0 +1,5061 @@
+{
+  "schema_version": "1.0.0",
+  "dataset_name": "MoneyLens Nigerian Merchant Intelligence Seed",
+  "created_at": "2026-10-17",
+  "country": "NG",
+  "currency": "NGN",
+  "disclaimer": "Curated seed, not an exhaustive or live verified directory. Some names are unverified candidate entries. Merchant identity does not prove the purpose of a transaction. Never infer financial goodness from category alone.",
+  "categories": [
+    "groceries",
+    "dining",
+    "housing",
+    "electricity",
+    "water",
+    "telecom",
+    "internet",
+    "transport",
+    "fuel",
+    "healthcare",
+    "education",
+    "shopping",
+    "entertainment",
+    "streaming",
+    "delivery",
+    "travel",
+    "gambling",
+    "bank_fees",
+    "insurance",
+    "investment",
+    "savings",
+    "debt",
+    "taxes",
+    "business",
+    "family_support",
+    "giving",
+    "cash_withdrawal",
+    "internal_transfer",
+    "transfer_unknown",
+    "reversal_or_refund",
+    "income",
+    "other",
+    "unknown"
+  ],
+  "vendors": [
+    {
+      "id": "shoprite",
+      "name": "Shoprite",
+      "entity_type": "merchant",
+      "category_hint": "groceries",
+      "aliases": [
+        "SHOPRITE"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "official_verified",
+      "source_urls": [
+        "https://shoprite.ng/locate-a-store/",
+        "https://sparnigeria.com/store-locator/",
+        "https://princeebeano.com/",
+        "https://corporate.foodco.ng/about-us/"
+      ],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [
+        {
+          "category": "groceries",
+          "examples": [
+            "foodstuff",
+            "beverages",
+            "fresh produce"
+          ],
+          "evidence": "business_type_inference",
+          "source_urls": []
+        },
+        {
+          "category": "shopping",
+          "examples": [
+            "household supplies",
+            "cleaning products"
+          ],
+          "evidence": "business_type_inference",
+          "source_urls": []
+        },
+        {
+          "category": "personal_care",
+          "examples": [
+            "toiletries",
+            "personal care products"
+          ],
+          "evidence": "business_type_inference",
+          "source_urls": []
+        }
+      ],
+      "known_locations": []
+    },
+    {
+      "id": "spar",
+      "name": "SPAR",
+      "entity_type": "merchant",
+      "category_hint": "groceries",
+      "aliases": [
+        "SPAR"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "official_verified",
+      "source_urls": [
+        "https://shoprite.ng/locate-a-store/",
+        "https://sparnigeria.com/store-locator/",
+        "https://princeebeano.com/",
+        "https://corporate.foodco.ng/about-us/"
+      ],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [
+        {
+          "category": "groceries",
+          "examples": [
+            "foodstuff",
+            "beverages",
+            "fresh produce"
+          ],
+          "evidence": "business_type_inference",
+          "source_urls": []
+        },
+        {
+          "category": "shopping",
+          "examples": [
+            "household goods",
+            "cleaning products"
+          ],
+          "evidence": "business_type_inference",
+          "source_urls": []
+        },
+        {
+          "category": "personal_care",
+          "examples": [
+            "toiletries"
+          ],
+          "evidence": "business_type_inference",
+          "source_urls": []
+        }
+      ],
+      "known_locations": []
+    },
+    {
+      "id": "prince_ebeano",
+      "name": "Prince Ebeano",
+      "entity_type": "merchant",
+      "category_hint": "groceries",
+      "aliases": [
+        "PRINCE EBEANO"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "official_verified",
+      "source_urls": [
+        "https://shoprite.ng/locate-a-store/",
+        "https://sparnigeria.com/store-locator/",
+        "https://princeebeano.com/",
+        "https://corporate.foodco.ng/about-us/"
+      ],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "foodco",
+      "name": "FoodCo",
+      "entity_type": "merchant",
+      "category_hint": "groceries",
+      "aliases": [
+        "FOODCO"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "official_verified",
+      "source_urls": [
+        "https://shoprite.ng/locate-a-store/",
+        "https://sparnigeria.com/store-locator/",
+        "https://princeebeano.com/",
+        "https://corporate.foodco.ng/about-us/"
+      ],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "justrite",
+      "name": "Justrite",
+      "entity_type": "merchant",
+      "category_hint": "groceries",
+      "aliases": [
+        "JUSTRITE"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "market_square",
+      "name": "Market Square",
+      "entity_type": "merchant",
+      "category_hint": "groceries",
+      "aliases": [
+        "MARKET SQUARE"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [
+        {
+          "category": "groceries",
+          "examples": [
+            "foodstuff",
+            "beverages"
+          ],
+          "evidence": "business_type_inference",
+          "source_urls": []
+        },
+        {
+          "category": "shopping",
+          "examples": [
+            "household products"
+          ],
+          "evidence": "business_type_inference",
+          "source_urls": []
+        }
+      ],
+      "known_locations": []
+    },
+    {
+      "id": "hubmart",
+      "name": "Hubmart",
+      "entity_type": "merchant",
+      "category_hint": "groceries",
+      "aliases": [
+        "HUBMART"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "addide",
+      "name": "Addide",
+      "entity_type": "merchant",
+      "category_hint": "groceries",
+      "aliases": [
+        "ADDIDE"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "grand_square",
+      "name": "Grand Square",
+      "entity_type": "merchant",
+      "category_hint": "groceries",
+      "aliases": [
+        "GRAND SQUARE"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "next_cash_and_carry",
+      "name": "Next Cash and Carry",
+      "entity_type": "merchant",
+      "category_hint": "groceries",
+      "aliases": [
+        "NEXT CASH AND CARRY"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "sahad_stores",
+      "name": "Sahad Stores",
+      "entity_type": "merchant",
+      "category_hint": "groceries",
+      "aliases": [
+        "SAHAD STORES"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "h_medix",
+      "name": "H-Medix",
+      "entity_type": "merchant",
+      "category_hint": "groceries",
+      "aliases": [
+        "H-MEDIX",
+        "HMEDIX"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "roban_stores",
+      "name": "Roban Stores",
+      "entity_type": "merchant",
+      "category_hint": "groceries",
+      "aliases": [
+        "ROBAN STORES"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "everyday_supermarket",
+      "name": "Everyday Supermarket",
+      "entity_type": "merchant",
+      "category_hint": "groceries",
+      "aliases": [
+        "EVERYDAY SUPERMARKET"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "jendol",
+      "name": "Jendol",
+      "entity_type": "merchant",
+      "category_hint": "groceries",
+      "aliases": [
+        "JENDOL"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "blenco",
+      "name": "Blenco",
+      "entity_type": "merchant",
+      "category_hint": "groceries",
+      "aliases": [
+        "BLENCO"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "ebeano_supermarket",
+      "name": "Ebeano Supermarket",
+      "entity_type": "merchant",
+      "category_hint": "groceries",
+      "aliases": [
+        "EBEANO SUPERMARKET"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "supersaver",
+      "name": "SuperSaver",
+      "entity_type": "merchant",
+      "category_hint": "groceries",
+      "aliases": [
+        "SUPERSAVER"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "spar_market",
+      "name": "Spar Market",
+      "entity_type": "merchant",
+      "category_hint": "groceries",
+      "aliases": [
+        "SPAR MARKET"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "kilimanjaro",
+      "name": "Kilimanjaro",
+      "entity_type": "merchant",
+      "category_hint": "dining",
+      "aliases": [
+        "KILIMANJARO"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "official_verified",
+      "source_urls": [
+        "https://www.kilimanjaro-restaurants.com/store-location",
+        "https://www.sweetsensation.ng/"
+      ],
+      "is_intermediary": false,
+      "requires_context": false,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Merchant category is a hint, not a spending-health judgment.",
+      "typical_purchases": [
+        {
+          "category": "dining",
+          "examples": [
+            "restaurant meals",
+            "prepared food"
+          ],
+          "evidence": "business_type_inference",
+          "source_urls": []
+        }
+      ],
+      "known_locations": []
+    },
+    {
+      "id": "sweet_sensation",
+      "name": "Sweet Sensation",
+      "entity_type": "merchant",
+      "category_hint": "dining",
+      "aliases": [
+        "SWEET SENSATION"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "official_verified",
+      "source_urls": [
+        "https://www.kilimanjaro-restaurants.com/store-location",
+        "https://www.sweetsensation.ng/"
+      ],
+      "is_intermediary": false,
+      "requires_context": false,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Merchant category is a hint, not a spending-health judgment.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "chicken_republic",
+      "name": "Chicken Republic",
+      "entity_type": "merchant",
+      "category_hint": "dining",
+      "aliases": [
+        "CHICKEN REPUBLIC"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": false,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Merchant category is a hint, not a spending-health judgment.",
+      "typical_purchases": [
+        {
+          "category": "dining",
+          "examples": [
+            "prepared chicken meals",
+            "rice meals",
+            "fast food"
+          ],
+          "evidence": "business_type_inference",
+          "source_urls": []
+        }
+      ],
+      "known_locations": []
+    },
+    {
+      "id": "the_place",
+      "name": "The Place",
+      "entity_type": "merchant",
+      "category_hint": "dining",
+      "aliases": [
+        "THE PLACE"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": false,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Merchant category is a hint, not a spending-health judgment.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "mr_biggs",
+      "name": "Mr Biggs",
+      "entity_type": "merchant",
+      "category_hint": "dining",
+      "aliases": [
+        "MR BIGGS"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": false,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Merchant category is a hint, not a spending-health judgment.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "tantalizers",
+      "name": "Tantalizers",
+      "entity_type": "merchant",
+      "category_hint": "dining",
+      "aliases": [
+        "TANTALIZERS"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": false,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Merchant category is a hint, not a spending-health judgment.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "kfc",
+      "name": "KFC",
+      "entity_type": "merchant",
+      "category_hint": "dining",
+      "aliases": [
+        "KFC"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": false,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Merchant category is a hint, not a spending-health judgment.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "dominos_pizza",
+      "name": "Dominos Pizza",
+      "entity_type": "merchant",
+      "category_hint": "dining",
+      "aliases": [
+        "DOMINOS PIZZA"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": false,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Merchant category is a hint, not a spending-health judgment.",
+      "typical_purchases": [
+        {
+          "category": "dining",
+          "examples": [
+            "pizza",
+            "prepared meals"
+          ],
+          "evidence": "business_type_inference",
+          "source_urls": []
+        }
+      ],
+      "known_locations": []
+    },
+    {
+      "id": "pizza_hut",
+      "name": "Pizza Hut",
+      "entity_type": "merchant",
+      "category_hint": "dining",
+      "aliases": [
+        "PIZZA HUT"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": false,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Merchant category is a hint, not a spending-health judgment.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "cold_stone_creamery",
+      "name": "Cold Stone Creamery",
+      "entity_type": "merchant",
+      "category_hint": "dining",
+      "aliases": [
+        "COLD STONE CREAMERY"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": false,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Merchant category is a hint, not a spending-health judgment.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "krispy_kreme",
+      "name": "Krispy Kreme",
+      "entity_type": "merchant",
+      "category_hint": "dining",
+      "aliases": [
+        "KRISPY KREME"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": false,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Merchant category is a hint, not a spending-health judgment.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "bukka_hut",
+      "name": "Bukka Hut",
+      "entity_type": "merchant",
+      "category_hint": "dining",
+      "aliases": [
+        "BUKKA HUT"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": false,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Merchant category is a hint, not a spending-health judgment.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "ofada_boy",
+      "name": "Ofada Boy",
+      "entity_type": "merchant",
+      "category_hint": "dining",
+      "aliases": [
+        "OFADA BOY"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": false,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Merchant category is a hint, not a spending-health judgment.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "mega_chicken",
+      "name": "Mega Chicken",
+      "entity_type": "merchant",
+      "category_hint": "dining",
+      "aliases": [
+        "MEGA CHICKEN"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": false,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Merchant category is a hint, not a spending-health judgment.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "the_harvest",
+      "name": "The Harvest",
+      "entity_type": "merchant",
+      "category_hint": "dining",
+      "aliases": [
+        "THE HARVEST"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": false,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Merchant category is a hint, not a spending-health judgment.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "bole_king",
+      "name": "Bole King",
+      "entity_type": "merchant",
+      "category_hint": "dining",
+      "aliases": [
+        "BOLE KING"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": false,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Merchant category is a hint, not a spending-health judgment.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "item7go",
+      "name": "Item7Go",
+      "entity_type": "merchant",
+      "category_hint": "dining",
+      "aliases": [
+        "ITEM7GO"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": false,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Merchant category is a hint, not a spending-health judgment.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "amala_skye",
+      "name": "Amala Skye",
+      "entity_type": "merchant",
+      "category_hint": "dining",
+      "aliases": [
+        "AMALA SKYE"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": false,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Merchant category is a hint, not a spending-health judgment.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "yakoyo",
+      "name": "Yakoyo",
+      "entity_type": "merchant",
+      "category_hint": "dining",
+      "aliases": [
+        "YAKOYO"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": false,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Merchant category is a hint, not a spending-health judgment.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "jevinik",
+      "name": "Jevinik",
+      "entity_type": "merchant",
+      "category_hint": "dining",
+      "aliases": [
+        "JEVINIK"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": false,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Merchant category is a hint, not a spending-health judgment.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "native_restaurant",
+      "name": "Native Restaurant",
+      "entity_type": "merchant",
+      "category_hint": "dining",
+      "aliases": [
+        "NATIVE RESTAURANT"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": false,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Merchant category is a hint, not a spending-health judgment.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "kokodome",
+      "name": "Kokodome",
+      "entity_type": "merchant",
+      "category_hint": "dining",
+      "aliases": [
+        "KOKODOME"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": false,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Merchant category is a hint, not a spending-health judgment.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "bolt",
+      "name": "Bolt",
+      "entity_type": "merchant",
+      "category_hint": "transport",
+      "aliases": [
+        "BOLT"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": false,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Merchant category is a hint, not a spending-health judgment.",
+      "typical_purchases": [
+        {
+          "category": "transport",
+          "examples": [
+            "ride-hailing trips",
+            "passenger transport"
+          ],
+          "evidence": "business_type_inference",
+          "source_urls": []
+        }
+      ],
+      "known_locations": []
+    },
+    {
+      "id": "uber",
+      "name": "Uber",
+      "entity_type": "merchant",
+      "category_hint": "transport",
+      "aliases": [
+        "UBER"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": false,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Merchant category is a hint, not a spending-health judgment.",
+      "typical_purchases": [
+        {
+          "category": "transport",
+          "examples": [
+            "ride-hailing trips",
+            "passenger transport"
+          ],
+          "evidence": "business_type_inference",
+          "source_urls": []
+        }
+      ],
+      "known_locations": []
+    },
+    {
+      "id": "indrive",
+      "name": "inDrive",
+      "entity_type": "merchant",
+      "category_hint": "transport",
+      "aliases": [
+        "INDRIVE"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": false,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Merchant category is a hint, not a spending-health judgment.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "lagos_brt",
+      "name": "Lagos BRT",
+      "entity_type": "merchant",
+      "category_hint": "transport",
+      "aliases": [
+        "LAGOS BRT"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": false,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Merchant category is a hint, not a spending-health judgment.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "lamata",
+      "name": "LAMATA",
+      "entity_type": "merchant",
+      "category_hint": "transport",
+      "aliases": [
+        "LAMATA"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": false,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Merchant category is a hint, not a spending-health judgment.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "gig_mobility",
+      "name": "GIG Mobility",
+      "entity_type": "merchant",
+      "category_hint": "transport",
+      "aliases": [
+        "GIG MOBILITY"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": false,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Merchant category is a hint, not a spending-health judgment.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "guo_transport",
+      "name": "GUO Transport",
+      "entity_type": "merchant",
+      "category_hint": "transport",
+      "aliases": [
+        "GUO TRANSPORT"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": false,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Merchant category is a hint, not a spending-health judgment.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "abc_transport",
+      "name": "ABC Transport",
+      "entity_type": "merchant",
+      "category_hint": "transport",
+      "aliases": [
+        "ABC TRANSPORT"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": false,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Merchant category is a hint, not a spending-health judgment.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "peace_mass_transit",
+      "name": "Peace Mass Transit",
+      "entity_type": "merchant",
+      "category_hint": "transport",
+      "aliases": [
+        "PEACE MASS TRANSIT"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": false,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Merchant category is a hint, not a spending-health judgment.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "young_shall_grow_motors",
+      "name": "Young Shall Grow Motors",
+      "entity_type": "merchant",
+      "category_hint": "transport",
+      "aliases": [
+        "YOUNG SHALL GROW MOTORS"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": false,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Merchant category is a hint, not a spending-health judgment.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "chisco_transport",
+      "name": "Chisco Transport",
+      "entity_type": "merchant",
+      "category_hint": "transport",
+      "aliases": [
+        "CHISCO TRANSPORT"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": false,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Merchant category is a hint, not a spending-health judgment.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "god_is_good_motors",
+      "name": "God Is Good Motors",
+      "entity_type": "merchant",
+      "category_hint": "transport",
+      "aliases": [
+        "GOD IS GOOD MOTORS"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": false,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Merchant category is a hint, not a spending-health judgment.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "rida",
+      "name": "Rida",
+      "entity_type": "merchant",
+      "category_hint": "transport",
+      "aliases": [
+        "RIDA"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": false,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Merchant category is a hint, not a spending-health judgment.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "nnpc_retail",
+      "name": "NNPC Retail",
+      "entity_type": "merchant",
+      "category_hint": "fuel",
+      "aliases": [
+        "NNPC RETAIL"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "official_verified",
+      "source_urls": [
+        "https://retail.nnpcgroup.com/"
+      ],
+      "is_intermediary": false,
+      "requires_context": false,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Merchant category is a hint, not a spending-health judgment.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "totalenergies",
+      "name": "TotalEnergies",
+      "entity_type": "merchant",
+      "category_hint": "fuel",
+      "aliases": [
+        "TOTALENERGIES"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [
+        {
+          "category": "transport",
+          "examples": [
+            "petrol",
+            "diesel",
+            "vehicle fuel"
+          ],
+          "evidence": "business_type_inference",
+          "source_urls": []
+        }
+      ],
+      "known_locations": []
+    },
+    {
+      "id": "mobil",
+      "name": "Mobil",
+      "entity_type": "merchant",
+      "category_hint": "fuel",
+      "aliases": [
+        "MOBIL"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "ardova",
+      "name": "Ardova",
+      "entity_type": "merchant",
+      "category_hint": "fuel",
+      "aliases": [
+        "ARDOVA"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "mrs_oil",
+      "name": "MRS Oil",
+      "entity_type": "merchant",
+      "category_hint": "fuel",
+      "aliases": [
+        "MRS OIL"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "conoil",
+      "name": "Conoil",
+      "entity_type": "merchant",
+      "category_hint": "fuel",
+      "aliases": [
+        "CONOIL"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "oando",
+      "name": "Oando",
+      "entity_type": "merchant",
+      "category_hint": "fuel",
+      "aliases": [
+        "OANDO"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "rainoil",
+      "name": "Rainoil",
+      "entity_type": "merchant",
+      "category_hint": "fuel",
+      "aliases": [
+        "RAINOIL"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "northwest_petroleum",
+      "name": "Northwest Petroleum",
+      "entity_type": "merchant",
+      "category_hint": "fuel",
+      "aliases": [
+        "NORTHWEST PETROLEUM"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "nipco",
+      "name": "NIPCO",
+      "entity_type": "merchant",
+      "category_hint": "fuel",
+      "aliases": [
+        "NIPCO"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "aa_rano",
+      "name": "AA Rano",
+      "entity_type": "merchant",
+      "category_hint": "fuel",
+      "aliases": [
+        "AA RANO"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "bovas",
+      "name": "Bovas",
+      "entity_type": "merchant",
+      "category_hint": "fuel",
+      "aliases": [
+        "BOVAS"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "enyo_retail",
+      "name": "Enyo Retail",
+      "entity_type": "merchant",
+      "category_hint": "fuel",
+      "aliases": [
+        "ENYO RETAIL"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "heyden_petroleum",
+      "name": "Heyden Petroleum",
+      "entity_type": "merchant",
+      "category_hint": "fuel",
+      "aliases": [
+        "HEYDEN PETROLEUM"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "ikeja_electric",
+      "name": "Ikeja Electric",
+      "entity_type": "utility_provider",
+      "category_hint": "electricity",
+      "aliases": [
+        "IKEJA ELECTRIC"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "official_verified",
+      "source_urls": [
+        "https://nerc.gov.ng/need-help/services/licencees/",
+        "https://bpe.gov.ng/staging/electric-power/"
+      ],
+      "is_intermediary": false,
+      "requires_context": false,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Merchant category is a hint, not a spending-health judgment.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "ikedc",
+      "name": "IKEDC",
+      "entity_type": "utility_provider",
+      "category_hint": "electricity",
+      "aliases": [
+        "IKEDC"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "official_verified",
+      "source_urls": [
+        "https://nerc.gov.ng/need-help/services/licencees/",
+        "https://bpe.gov.ng/staging/electric-power/"
+      ],
+      "is_intermediary": false,
+      "requires_context": false,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Merchant category is a hint, not a spending-health judgment.",
+      "typical_purchases": [
+        {
+          "category": "utilities",
+          "examples": [
+            "electricity bills",
+            "prepaid electricity tokens"
+          ],
+          "evidence": "business_type_inference",
+          "source_urls": []
+        }
+      ],
+      "known_locations": []
+    },
+    {
+      "id": "eko_electricity",
+      "name": "Eko Electricity",
+      "entity_type": "utility_provider",
+      "category_hint": "electricity",
+      "aliases": [
+        "EKO ELECTRICITY"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "official_verified",
+      "source_urls": [
+        "https://nerc.gov.ng/need-help/services/licencees/",
+        "https://bpe.gov.ng/staging/electric-power/"
+      ],
+      "is_intermediary": false,
+      "requires_context": false,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Merchant category is a hint, not a spending-health judgment.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "ekedc",
+      "name": "EKEDC",
+      "entity_type": "utility_provider",
+      "category_hint": "electricity",
+      "aliases": [
+        "EKEDC"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "official_verified",
+      "source_urls": [
+        "https://nerc.gov.ng/need-help/services/licencees/",
+        "https://bpe.gov.ng/staging/electric-power/"
+      ],
+      "is_intermediary": false,
+      "requires_context": false,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Merchant category is a hint, not a spending-health judgment.",
+      "typical_purchases": [
+        {
+          "category": "utilities",
+          "examples": [
+            "electricity bills",
+            "prepaid electricity tokens"
+          ],
+          "evidence": "business_type_inference",
+          "source_urls": []
+        }
+      ],
+      "known_locations": []
+    },
+    {
+      "id": "aedc",
+      "name": "AEDC",
+      "entity_type": "utility_provider",
+      "category_hint": "electricity",
+      "aliases": [
+        "AEDC"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "official_verified",
+      "source_urls": [
+        "https://nerc.gov.ng/need-help/services/licencees/",
+        "https://bpe.gov.ng/staging/electric-power/"
+      ],
+      "is_intermediary": false,
+      "requires_context": false,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Merchant category is a hint, not a spending-health judgment.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "abuja_electricity",
+      "name": "Abuja Electricity",
+      "entity_type": "utility_provider",
+      "category_hint": "electricity",
+      "aliases": [
+        "ABUJA ELECTRICITY"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "official_verified",
+      "source_urls": [
+        "https://nerc.gov.ng/need-help/services/licencees/",
+        "https://bpe.gov.ng/staging/electric-power/"
+      ],
+      "is_intermediary": false,
+      "requires_context": false,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Merchant category is a hint, not a spending-health judgment.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "ibedc",
+      "name": "IBEDC",
+      "entity_type": "utility_provider",
+      "category_hint": "electricity",
+      "aliases": [
+        "IBEDC"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "official_verified",
+      "source_urls": [
+        "https://nerc.gov.ng/need-help/services/licencees/",
+        "https://bpe.gov.ng/staging/electric-power/"
+      ],
+      "is_intermediary": false,
+      "requires_context": false,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Merchant category is a hint, not a spending-health judgment.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "ibadan_electricity",
+      "name": "Ibadan Electricity",
+      "entity_type": "utility_provider",
+      "category_hint": "electricity",
+      "aliases": [
+        "IBADAN ELECTRICITY"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "official_verified",
+      "source_urls": [
+        "https://nerc.gov.ng/need-help/services/licencees/",
+        "https://bpe.gov.ng/staging/electric-power/"
+      ],
+      "is_intermediary": false,
+      "requires_context": false,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Merchant category is a hint, not a spending-health judgment.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "eedc",
+      "name": "EEDC",
+      "entity_type": "utility_provider",
+      "category_hint": "electricity",
+      "aliases": [
+        "EEDC"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "official_verified",
+      "source_urls": [
+        "https://nerc.gov.ng/need-help/services/licencees/",
+        "https://bpe.gov.ng/staging/electric-power/"
+      ],
+      "is_intermediary": false,
+      "requires_context": false,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Merchant category is a hint, not a spending-health judgment.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "enugu_electricity",
+      "name": "Enugu Electricity",
+      "entity_type": "utility_provider",
+      "category_hint": "electricity",
+      "aliases": [
+        "ENUGU ELECTRICITY"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "official_verified",
+      "source_urls": [
+        "https://nerc.gov.ng/need-help/services/licencees/",
+        "https://bpe.gov.ng/staging/electric-power/"
+      ],
+      "is_intermediary": false,
+      "requires_context": false,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Merchant category is a hint, not a spending-health judgment.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "bedc",
+      "name": "BEDC",
+      "entity_type": "utility_provider",
+      "category_hint": "electricity",
+      "aliases": [
+        "BEDC"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "official_verified",
+      "source_urls": [
+        "https://nerc.gov.ng/need-help/services/licencees/",
+        "https://bpe.gov.ng/staging/electric-power/"
+      ],
+      "is_intermediary": false,
+      "requires_context": false,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Merchant category is a hint, not a spending-health judgment.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "benin_electricity",
+      "name": "Benin Electricity",
+      "entity_type": "utility_provider",
+      "category_hint": "electricity",
+      "aliases": [
+        "BENIN ELECTRICITY"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "official_verified",
+      "source_urls": [
+        "https://nerc.gov.ng/need-help/services/licencees/",
+        "https://bpe.gov.ng/staging/electric-power/"
+      ],
+      "is_intermediary": false,
+      "requires_context": false,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Merchant category is a hint, not a spending-health judgment.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "phed",
+      "name": "PHED",
+      "entity_type": "utility_provider",
+      "category_hint": "electricity",
+      "aliases": [
+        "PHED"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "official_verified",
+      "source_urls": [
+        "https://nerc.gov.ng/need-help/services/licencees/",
+        "https://bpe.gov.ng/staging/electric-power/"
+      ],
+      "is_intermediary": false,
+      "requires_context": false,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Merchant category is a hint, not a spending-health judgment.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "phedc",
+      "name": "PHEDC",
+      "entity_type": "utility_provider",
+      "category_hint": "electricity",
+      "aliases": [
+        "PHEDC"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "official_verified",
+      "source_urls": [
+        "https://nerc.gov.ng/need-help/services/licencees/",
+        "https://bpe.gov.ng/staging/electric-power/"
+      ],
+      "is_intermediary": false,
+      "requires_context": false,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Merchant category is a hint, not a spending-health judgment.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "port_harcourt_electricity",
+      "name": "Port Harcourt Electricity",
+      "entity_type": "utility_provider",
+      "category_hint": "electricity",
+      "aliases": [
+        "PORT HARCOURT ELECTRICITY"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "official_verified",
+      "source_urls": [
+        "https://nerc.gov.ng/need-help/services/licencees/",
+        "https://bpe.gov.ng/staging/electric-power/"
+      ],
+      "is_intermediary": false,
+      "requires_context": false,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Merchant category is a hint, not a spending-health judgment.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "kedco",
+      "name": "KEDCO",
+      "entity_type": "utility_provider",
+      "category_hint": "electricity",
+      "aliases": [
+        "KEDCO"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "official_verified",
+      "source_urls": [
+        "https://nerc.gov.ng/need-help/services/licencees/",
+        "https://bpe.gov.ng/staging/electric-power/"
+      ],
+      "is_intermediary": false,
+      "requires_context": false,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Merchant category is a hint, not a spending-health judgment.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "kano_electricity",
+      "name": "Kano Electricity",
+      "entity_type": "utility_provider",
+      "category_hint": "electricity",
+      "aliases": [
+        "KANO ELECTRICITY"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "official_verified",
+      "source_urls": [
+        "https://nerc.gov.ng/need-help/services/licencees/",
+        "https://bpe.gov.ng/staging/electric-power/"
+      ],
+      "is_intermediary": false,
+      "requires_context": false,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Merchant category is a hint, not a spending-health judgment.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "kaedco",
+      "name": "KAEDCO",
+      "entity_type": "utility_provider",
+      "category_hint": "electricity",
+      "aliases": [
+        "KAEDCO"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "official_verified",
+      "source_urls": [
+        "https://nerc.gov.ng/need-help/services/licencees/",
+        "https://bpe.gov.ng/staging/electric-power/"
+      ],
+      "is_intermediary": false,
+      "requires_context": false,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Merchant category is a hint, not a spending-health judgment.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "kaduna_electric",
+      "name": "Kaduna Electric",
+      "entity_type": "utility_provider",
+      "category_hint": "electricity",
+      "aliases": [
+        "KADUNA ELECTRIC"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "official_verified",
+      "source_urls": [
+        "https://nerc.gov.ng/need-help/services/licencees/",
+        "https://bpe.gov.ng/staging/electric-power/"
+      ],
+      "is_intermediary": false,
+      "requires_context": false,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Merchant category is a hint, not a spending-health judgment.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "jed",
+      "name": "JED",
+      "entity_type": "utility_provider",
+      "category_hint": "electricity",
+      "aliases": [
+        "JED"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "official_verified",
+      "source_urls": [
+        "https://nerc.gov.ng/need-help/services/licencees/",
+        "https://bpe.gov.ng/staging/electric-power/"
+      ],
+      "is_intermediary": false,
+      "requires_context": false,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Merchant category is a hint, not a spending-health judgment.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "jos_electricity",
+      "name": "Jos Electricity",
+      "entity_type": "utility_provider",
+      "category_hint": "electricity",
+      "aliases": [
+        "JOS ELECTRICITY"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "official_verified",
+      "source_urls": [
+        "https://nerc.gov.ng/need-help/services/licencees/",
+        "https://bpe.gov.ng/staging/electric-power/"
+      ],
+      "is_intermediary": false,
+      "requires_context": false,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Merchant category is a hint, not a spending-health judgment.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "yedc",
+      "name": "YEDC",
+      "entity_type": "utility_provider",
+      "category_hint": "electricity",
+      "aliases": [
+        "YEDC"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "official_verified",
+      "source_urls": [
+        "https://nerc.gov.ng/need-help/services/licencees/",
+        "https://bpe.gov.ng/staging/electric-power/"
+      ],
+      "is_intermediary": false,
+      "requires_context": false,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Merchant category is a hint, not a spending-health judgment.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "yola_electricity",
+      "name": "Yola Electricity",
+      "entity_type": "utility_provider",
+      "category_hint": "electricity",
+      "aliases": [
+        "YOLA ELECTRICITY"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "official_verified",
+      "source_urls": [
+        "https://nerc.gov.ng/need-help/services/licencees/",
+        "https://bpe.gov.ng/staging/electric-power/"
+      ],
+      "is_intermediary": false,
+      "requires_context": false,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Merchant category is a hint, not a spending-health judgment.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "aple",
+      "name": "APLE",
+      "entity_type": "utility_provider",
+      "category_hint": "electricity",
+      "aliases": [
+        "APLE"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "official_verified",
+      "source_urls": [
+        "https://nerc.gov.ng/need-help/services/licencees/",
+        "https://bpe.gov.ng/staging/electric-power/"
+      ],
+      "is_intermediary": false,
+      "requires_context": false,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Merchant category is a hint, not a spending-health judgment.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "aba_power",
+      "name": "Aba Power",
+      "entity_type": "utility_provider",
+      "category_hint": "electricity",
+      "aliases": [
+        "ABA POWER"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "official_verified",
+      "source_urls": [
+        "https://nerc.gov.ng/need-help/services/licencees/",
+        "https://bpe.gov.ng/staging/electric-power/"
+      ],
+      "is_intermediary": false,
+      "requires_context": false,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Merchant category is a hint, not a spending-health judgment.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "mtn",
+      "name": "MTN",
+      "entity_type": "telecom_provider",
+      "category_hint": "telecom",
+      "aliases": [
+        "MTN"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "official_verified",
+      "source_urls": [
+        "https://cdn-webportal.airtelstream.net/website/investor/main/AR2026/reports/nigeria-mobile-services-17230.html"
+      ],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [
+        {
+          "category": "telecommunications",
+          "examples": [
+            "mobile data",
+            "airtime",
+            "voice services"
+          ],
+          "evidence": "business_type_inference",
+          "source_urls": []
+        }
+      ],
+      "known_locations": []
+    },
+    {
+      "id": "airtel",
+      "name": "Airtel",
+      "entity_type": "telecom_provider",
+      "category_hint": "telecom",
+      "aliases": [
+        "AIRTEL"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "official_verified",
+      "source_urls": [
+        "https://cdn-webportal.airtelstream.net/website/investor/main/AR2026/reports/nigeria-mobile-services-17230.html"
+      ],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [
+        {
+          "category": "telecommunications",
+          "examples": [
+            "mobile data",
+            "airtime",
+            "voice services"
+          ],
+          "evidence": "business_type_inference",
+          "source_urls": []
+        }
+      ],
+      "known_locations": []
+    },
+    {
+      "id": "glo",
+      "name": "Glo",
+      "entity_type": "telecom_provider",
+      "category_hint": "telecom",
+      "aliases": [
+        "GLO"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "official_verified",
+      "source_urls": [
+        "https://cdn-webportal.airtelstream.net/website/investor/main/AR2026/reports/nigeria-mobile-services-17230.html"
+      ],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [
+        {
+          "category": "telecommunications",
+          "examples": [
+            "mobile data",
+            "airtime",
+            "voice services"
+          ],
+          "evidence": "business_type_inference",
+          "source_urls": []
+        }
+      ],
+      "known_locations": []
+    },
+    {
+      "id": "globacom",
+      "name": "Globacom",
+      "entity_type": "telecom_provider",
+      "category_hint": "telecom",
+      "aliases": [
+        "GLOBACOM"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "official_verified",
+      "source_urls": [
+        "https://cdn-webportal.airtelstream.net/website/investor/main/AR2026/reports/nigeria-mobile-services-17230.html"
+      ],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "9mobile",
+      "name": "9mobile",
+      "entity_type": "telecom_provider",
+      "category_hint": "telecom",
+      "aliases": [
+        "9MOBILE"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "official_verified",
+      "source_urls": [
+        "https://cdn-webportal.airtelstream.net/website/investor/main/AR2026/reports/nigeria-mobile-services-17230.html"
+      ],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "t2_mobile",
+      "name": "T2 Mobile",
+      "entity_type": "telecom_provider",
+      "category_hint": "telecom",
+      "aliases": [
+        "T2 MOBILE"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "official_verified",
+      "source_urls": [
+        "https://cdn-webportal.airtelstream.net/website/investor/main/AR2026/reports/nigeria-mobile-services-17230.html"
+      ],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "spectranet",
+      "name": "Spectranet",
+      "entity_type": "merchant",
+      "category_hint": "internet",
+      "aliases": [
+        "SPECTRANET"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "smile_communications",
+      "name": "Smile Communications",
+      "entity_type": "merchant",
+      "category_hint": "internet",
+      "aliases": [
+        "SMILE COMMUNICATIONS"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "ipnx",
+      "name": "ipNX",
+      "entity_type": "merchant",
+      "category_hint": "internet",
+      "aliases": [
+        "IPNX"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "fiberone",
+      "name": "FiberOne",
+      "entity_type": "merchant",
+      "category_hint": "internet",
+      "aliases": [
+        "FIBERONE"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "tizeti",
+      "name": "Tizeti",
+      "entity_type": "merchant",
+      "category_hint": "internet",
+      "aliases": [
+        "TIZETI"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "starlink",
+      "name": "Starlink",
+      "entity_type": "merchant",
+      "category_hint": "internet",
+      "aliases": [
+        "STARLINK"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "swift_networks",
+      "name": "Swift Networks",
+      "entity_type": "merchant",
+      "category_hint": "internet",
+      "aliases": [
+        "SWIFT NETWORKS"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "mainone",
+      "name": "MainOne",
+      "entity_type": "merchant",
+      "category_hint": "internet",
+      "aliases": [
+        "MAINONE"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "cobranet",
+      "name": "Cobranet",
+      "entity_type": "merchant",
+      "category_hint": "internet",
+      "aliases": [
+        "COBRANET"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "coollink",
+      "name": "Coollink",
+      "entity_type": "merchant",
+      "category_hint": "internet",
+      "aliases": [
+        "COOLLINK"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "netflix",
+      "name": "Netflix",
+      "entity_type": "merchant",
+      "category_hint": "streaming",
+      "aliases": [
+        "NETFLIX"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [
+        {
+          "category": "subscriptions",
+          "examples": [
+            "video streaming services"
+          ],
+          "evidence": "business_type_inference",
+          "source_urls": []
+        }
+      ],
+      "known_locations": []
+    },
+    {
+      "id": "showmax",
+      "name": "Showmax",
+      "entity_type": "merchant",
+      "category_hint": "streaming",
+      "aliases": [
+        "SHOWMAX"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "dstv",
+      "name": "DStv",
+      "entity_type": "merchant",
+      "category_hint": "streaming",
+      "aliases": [
+        "DSTV"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "gotv",
+      "name": "GOtv",
+      "entity_type": "merchant",
+      "category_hint": "streaming",
+      "aliases": [
+        "GOTV"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "startimes",
+      "name": "StarTimes",
+      "entity_type": "merchant",
+      "category_hint": "streaming",
+      "aliases": [
+        "STARTIMES"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "spotify",
+      "name": "Spotify",
+      "entity_type": "merchant",
+      "category_hint": "streaming",
+      "aliases": [
+        "SPOTIFY"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "apple_music",
+      "name": "Apple Music",
+      "entity_type": "merchant",
+      "category_hint": "streaming",
+      "aliases": [
+        "APPLE MUSIC"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "youtube_premium",
+      "name": "YouTube Premium",
+      "entity_type": "merchant",
+      "category_hint": "streaming",
+      "aliases": [
+        "YOUTUBE PREMIUM"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "amazon_prime_video",
+      "name": "Amazon Prime Video",
+      "entity_type": "merchant",
+      "category_hint": "streaming",
+      "aliases": [
+        "AMAZON PRIME VIDEO"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "jumia",
+      "name": "Jumia",
+      "entity_type": "marketplace",
+      "category_hint": "shopping",
+      "aliases": [
+        "JUMIA"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [
+        {
+          "category": "shopping",
+          "examples": [
+            "electronics",
+            "household goods",
+            "marketplace products"
+          ],
+          "evidence": "business_type_inference",
+          "source_urls": []
+        }
+      ],
+      "known_locations": []
+    },
+    {
+      "id": "konga",
+      "name": "Konga",
+      "entity_type": "marketplace",
+      "category_hint": "shopping",
+      "aliases": [
+        "KONGA"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "jiji",
+      "name": "Jiji",
+      "entity_type": "marketplace",
+      "category_hint": "shopping",
+      "aliases": [
+        "JIJI"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "slot",
+      "name": "Slot",
+      "entity_type": "marketplace",
+      "category_hint": "shopping",
+      "aliases": [
+        "SLOT"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "pointek",
+      "name": "Pointek",
+      "entity_type": "marketplace",
+      "category_hint": "shopping",
+      "aliases": [
+        "POINTEK"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "3c_hub",
+      "name": "3C Hub",
+      "entity_type": "marketplace",
+      "category_hint": "shopping",
+      "aliases": [
+        "3C HUB"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "kara",
+      "name": "Kara",
+      "entity_type": "marketplace",
+      "category_hint": "shopping",
+      "aliases": [
+        "KARA"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "oraimo",
+      "name": "Oraimo",
+      "entity_type": "marketplace",
+      "category_hint": "shopping",
+      "aliases": [
+        "ORAIMO"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "samsung",
+      "name": "Samsung",
+      "entity_type": "marketplace",
+      "category_hint": "shopping",
+      "aliases": [
+        "SAMSUNG"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "apple_store",
+      "name": "Apple Store",
+      "entity_type": "marketplace",
+      "category_hint": "shopping",
+      "aliases": [
+        "APPLE STORE"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "miniso",
+      "name": "Miniso",
+      "entity_type": "marketplace",
+      "category_hint": "shopping",
+      "aliases": [
+        "MINISO"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "medplus_retail",
+      "name": "Medplus Retail",
+      "entity_type": "marketplace",
+      "category_hint": "shopping",
+      "aliases": [
+        "MEDPLUS RETAIL"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "supermart_ng",
+      "name": "Supermart.ng",
+      "entity_type": "marketplace",
+      "category_hint": "shopping",
+      "aliases": [
+        "SUPERMART.NG",
+        "SUPERMARTNG"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "medplus_pharmacy",
+      "name": "Medplus Pharmacy",
+      "entity_type": "merchant",
+      "category_hint": "healthcare",
+      "aliases": [
+        "MEDPLUS PHARMACY"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "healthplus_pharmacy",
+      "name": "HealthPlus Pharmacy",
+      "entity_type": "merchant",
+      "category_hint": "healthcare",
+      "aliases": [
+        "HEALTHPLUS PHARMACY"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "alpha_pharmacy",
+      "name": "Alpha Pharmacy",
+      "entity_type": "merchant",
+      "category_hint": "healthcare",
+      "aliases": [
+        "ALPHA PHARMACY"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "mecure_healthcare",
+      "name": "Mecure Healthcare",
+      "entity_type": "merchant",
+      "category_hint": "healthcare",
+      "aliases": [
+        "MECURE HEALTHCARE"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "reddington_hospital",
+      "name": "Reddington Hospital",
+      "entity_type": "merchant",
+      "category_hint": "healthcare",
+      "aliases": [
+        "REDDINGTON HOSPITAL"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "lagoon_hospitals",
+      "name": "Lagoon Hospitals",
+      "entity_type": "merchant",
+      "category_hint": "healthcare",
+      "aliases": [
+        "LAGOON HOSPITALS"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "evercare_hospital",
+      "name": "Evercare Hospital",
+      "entity_type": "merchant",
+      "category_hint": "healthcare",
+      "aliases": [
+        "EVERCARE HOSPITAL"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "nisa_premier_hospital",
+      "name": "Nisa Premier Hospital",
+      "entity_type": "merchant",
+      "category_hint": "healthcare",
+      "aliases": [
+        "NISA PREMIER HOSPITAL"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "lily_hospitals",
+      "name": "Lily Hospitals",
+      "entity_type": "merchant",
+      "category_hint": "healthcare",
+      "aliases": [
+        "LILY HOSPITALS"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "euracare",
+      "name": "Euracare",
+      "entity_type": "merchant",
+      "category_hint": "healthcare",
+      "aliases": [
+        "EURACARE"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "synlab",
+      "name": "Synlab",
+      "entity_type": "merchant",
+      "category_hint": "healthcare",
+      "aliases": [
+        "SYNLAB"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "clina_lancet",
+      "name": "Clina Lancet",
+      "entity_type": "merchant",
+      "category_hint": "healthcare",
+      "aliases": [
+        "CLINA LANCET"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "unilag",
+      "name": "UNILAG",
+      "entity_type": "institution",
+      "category_hint": "education",
+      "aliases": [
+        "UNILAG"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "university_of_lagos",
+      "name": "University of Lagos",
+      "entity_type": "institution",
+      "category_hint": "education",
+      "aliases": [
+        "UNIVERSITY OF LAGOS"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "unilorin",
+      "name": "UNILORIN",
+      "entity_type": "institution",
+      "category_hint": "education",
+      "aliases": [
+        "UNILORIN"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "university_of_ilorin",
+      "name": "University of Ilorin",
+      "entity_type": "institution",
+      "category_hint": "education",
+      "aliases": [
+        "UNIVERSITY OF ILORIN"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "university_of_ibadan",
+      "name": "University of Ibadan",
+      "entity_type": "institution",
+      "category_hint": "education",
+      "aliases": [
+        "UNIVERSITY OF IBADAN"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "university_of_nigeria_nsukka",
+      "name": "University of Nigeria Nsukka",
+      "entity_type": "institution",
+      "category_hint": "education",
+      "aliases": [
+        "UNIVERSITY OF NIGERIA NSUKKA"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "covenant_university",
+      "name": "Covenant University",
+      "entity_type": "institution",
+      "category_hint": "education",
+      "aliases": [
+        "COVENANT UNIVERSITY"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "babcock_university",
+      "name": "Babcock University",
+      "entity_type": "institution",
+      "category_hint": "education",
+      "aliases": [
+        "BABCOCK UNIVERSITY"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "ahmadu_bello_university",
+      "name": "Ahmadu Bello University",
+      "entity_type": "institution",
+      "category_hint": "education",
+      "aliases": [
+        "AHMADU BELLO UNIVERSITY"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "yabatech",
+      "name": "YABATECH",
+      "entity_type": "institution",
+      "category_hint": "education",
+      "aliases": [
+        "YABATECH"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "lasu",
+      "name": "LASU",
+      "entity_type": "institution",
+      "category_hint": "education",
+      "aliases": [
+        "LASU"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "jamb",
+      "name": "JAMB",
+      "entity_type": "institution",
+      "category_hint": "education",
+      "aliases": [
+        "JAMB"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "waec",
+      "name": "WAEC",
+      "entity_type": "institution",
+      "category_hint": "education",
+      "aliases": [
+        "WAEC"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "neco",
+      "name": "NECO",
+      "entity_type": "institution",
+      "category_hint": "education",
+      "aliases": [
+        "NECO"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "glovo",
+      "name": "Glovo",
+      "entity_type": "marketplace",
+      "category_hint": "delivery",
+      "aliases": [
+        "GLOVO"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "chowdeck",
+      "name": "Chowdeck",
+      "entity_type": "marketplace",
+      "category_hint": "delivery",
+      "aliases": [
+        "CHOWDECK"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "foodcourt",
+      "name": "FoodCourt",
+      "entity_type": "marketplace",
+      "category_hint": "delivery",
+      "aliases": [
+        "FOODCOURT"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "heyfood",
+      "name": "Heyfood",
+      "entity_type": "marketplace",
+      "category_hint": "delivery",
+      "aliases": [
+        "HEYFOOD"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "mano",
+      "name": "Mano",
+      "entity_type": "marketplace",
+      "category_hint": "delivery",
+      "aliases": [
+        "MANO"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "air_peace",
+      "name": "Air Peace",
+      "entity_type": "merchant",
+      "category_hint": "travel",
+      "aliases": [
+        "AIR PEACE"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "arik_air",
+      "name": "Arik Air",
+      "entity_type": "merchant",
+      "category_hint": "travel",
+      "aliases": [
+        "ARIK AIR"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "ibom_air",
+      "name": "Ibom Air",
+      "entity_type": "merchant",
+      "category_hint": "travel",
+      "aliases": [
+        "IBOM AIR"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "united_nigeria_airlines",
+      "name": "United Nigeria Airlines",
+      "entity_type": "merchant",
+      "category_hint": "travel",
+      "aliases": [
+        "UNITED NIGERIA AIRLINES"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "valuejet",
+      "name": "ValueJet",
+      "entity_type": "merchant",
+      "category_hint": "travel",
+      "aliases": [
+        "VALUEJET"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "green_africa",
+      "name": "Green Africa",
+      "entity_type": "merchant",
+      "category_hint": "travel",
+      "aliases": [
+        "GREEN AFRICA"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "max_air",
+      "name": "Max Air",
+      "entity_type": "merchant",
+      "category_hint": "travel",
+      "aliases": [
+        "MAX AIR"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "overland_airways",
+      "name": "Overland Airways",
+      "entity_type": "merchant",
+      "category_hint": "travel",
+      "aliases": [
+        "OVERLAND AIRWAYS"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "rano_air",
+      "name": "Rano Air",
+      "entity_type": "merchant",
+      "category_hint": "travel",
+      "aliases": [
+        "RANO AIR"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "wakanow",
+      "name": "Wakanow",
+      "entity_type": "merchant",
+      "category_hint": "travel",
+      "aliases": [
+        "WAKANOW"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "travelstart",
+      "name": "Travelstart",
+      "entity_type": "merchant",
+      "category_hint": "travel",
+      "aliases": [
+        "TRAVELSTART"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "hotels_ng",
+      "name": "Hotels.ng",
+      "entity_type": "merchant",
+      "category_hint": "travel",
+      "aliases": [
+        "HOTELS.NG",
+        "HOTELSNG"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "booking_com",
+      "name": "Booking.com",
+      "entity_type": "merchant",
+      "category_hint": "travel",
+      "aliases": [
+        "BOOKING.COM",
+        "BOOKINGCOM"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "airbnb",
+      "name": "Airbnb",
+      "entity_type": "merchant",
+      "category_hint": "travel",
+      "aliases": [
+        "AIRBNB"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "bet9ja",
+      "name": "Bet9ja",
+      "entity_type": "merchant",
+      "category_hint": "gambling",
+      "aliases": [
+        "BET9JA"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": false,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Merchant category is a hint, not a spending-health judgment.",
+      "typical_purchases": [
+        {
+          "category": "gambling",
+          "examples": [
+            "sports betting"
+          ],
+          "evidence": "business_type_inference",
+          "source_urls": []
+        }
+      ],
+      "known_locations": []
+    },
+    {
+      "id": "sportybet",
+      "name": "SportyBet",
+      "entity_type": "merchant",
+      "category_hint": "gambling",
+      "aliases": [
+        "SPORTYBET"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": false,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Merchant category is a hint, not a spending-health judgment.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "betking",
+      "name": "BetKing",
+      "entity_type": "merchant",
+      "category_hint": "gambling",
+      "aliases": [
+        "BETKING"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": false,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Merchant category is a hint, not a spending-health judgment.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "1xbet",
+      "name": "1xBet",
+      "entity_type": "merchant",
+      "category_hint": "gambling",
+      "aliases": [
+        "1XBET"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": false,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Merchant category is a hint, not a spending-health judgment.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "nairabet",
+      "name": "NairaBET",
+      "entity_type": "merchant",
+      "category_hint": "gambling",
+      "aliases": [
+        "NAIRABET"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": false,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Merchant category is a hint, not a spending-health judgment.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "merrybet",
+      "name": "Merrybet",
+      "entity_type": "merchant",
+      "category_hint": "gambling",
+      "aliases": [
+        "MERRYBET"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": false,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Merchant category is a hint, not a spending-health judgment.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "betway",
+      "name": "Betway",
+      "entity_type": "merchant",
+      "category_hint": "gambling",
+      "aliases": [
+        "BETWAY"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": false,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Merchant category is a hint, not a spending-health judgment.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "bangbet",
+      "name": "BangBet",
+      "entity_type": "merchant",
+      "category_hint": "gambling",
+      "aliases": [
+        "BANGBET"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": false,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Merchant category is a hint, not a spending-health judgment.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "opay",
+      "name": "OPay",
+      "entity_type": "payment_processor",
+      "category_hint": "payment_intermediary",
+      "aliases": [
+        "OPAY"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "official_verified",
+      "source_urls": [
+        "https://www.cbn.gov.ng/PaymentsSystem/PSPs.html"
+      ],
+      "is_intermediary": true,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "palmpay",
+      "name": "PalmPay",
+      "entity_type": "payment_processor",
+      "category_hint": "payment_intermediary",
+      "aliases": [
+        "PALMPAY"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "official_verified",
+      "source_urls": [
+        "https://www.cbn.gov.ng/PaymentsSystem/PSPs.html"
+      ],
+      "is_intermediary": true,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "moniepoint",
+      "name": "Moniepoint",
+      "entity_type": "payment_processor",
+      "category_hint": "payment_intermediary",
+      "aliases": [
+        "MONIEPOINT"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "official_verified",
+      "source_urls": [
+        "https://www.cbn.gov.ng/PaymentsSystem/PSPs.html"
+      ],
+      "is_intermediary": true,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "paga",
+      "name": "Paga",
+      "entity_type": "payment_processor",
+      "category_hint": "payment_intermediary",
+      "aliases": [
+        "PAGA"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "official_verified",
+      "source_urls": [
+        "https://www.cbn.gov.ng/PaymentsSystem/PSPs.html"
+      ],
+      "is_intermediary": true,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "paystack",
+      "name": "Paystack",
+      "entity_type": "payment_processor",
+      "category_hint": "payment_intermediary",
+      "aliases": [
+        "PAYSTACK"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "official_verified",
+      "source_urls": [
+        "https://www.cbn.gov.ng/PaymentsSystem/PSPs.html"
+      ],
+      "is_intermediary": true,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "flutterwave",
+      "name": "Flutterwave",
+      "entity_type": "payment_processor",
+      "category_hint": "payment_intermediary",
+      "aliases": [
+        "FLUTTERWAVE"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "official_verified",
+      "source_urls": [
+        "https://www.cbn.gov.ng/PaymentsSystem/PSPs.html"
+      ],
+      "is_intermediary": true,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "remita",
+      "name": "Remita",
+      "entity_type": "payment_processor",
+      "category_hint": "payment_intermediary",
+      "aliases": [
+        "REMITA"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "official_verified",
+      "source_urls": [
+        "https://www.cbn.gov.ng/PaymentsSystem/PSPs.html"
+      ],
+      "is_intermediary": true,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "interswitch",
+      "name": "Interswitch",
+      "entity_type": "payment_processor",
+      "category_hint": "payment_intermediary",
+      "aliases": [
+        "INTERSWITCH"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "official_verified",
+      "source_urls": [
+        "https://www.cbn.gov.ng/PaymentsSystem/PSPs.html"
+      ],
+      "is_intermediary": true,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "kuda",
+      "name": "Kuda",
+      "entity_type": "payment_processor",
+      "category_hint": "payment_intermediary",
+      "aliases": [
+        "KUDA"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "official_verified",
+      "source_urls": [
+        "https://www.cbn.gov.ng/PaymentsSystem/PSPs.html"
+      ],
+      "is_intermediary": true,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "carbon",
+      "name": "Carbon",
+      "entity_type": "payment_processor",
+      "category_hint": "payment_intermediary",
+      "aliases": [
+        "CARBON"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "official_verified",
+      "source_urls": [
+        "https://www.cbn.gov.ng/PaymentsSystem/PSPs.html"
+      ],
+      "is_intermediary": true,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "fairmoney",
+      "name": "FairMoney",
+      "entity_type": "payment_processor",
+      "category_hint": "payment_intermediary",
+      "aliases": [
+        "FAIRMONEY"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "official_verified",
+      "source_urls": [
+        "https://www.cbn.gov.ng/PaymentsSystem/PSPs.html"
+      ],
+      "is_intermediary": true,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "nomba",
+      "name": "Nomba",
+      "entity_type": "payment_processor",
+      "category_hint": "payment_intermediary",
+      "aliases": [
+        "NOMBA"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "official_verified",
+      "source_urls": [
+        "https://www.cbn.gov.ng/PaymentsSystem/PSPs.html"
+      ],
+      "is_intermediary": true,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "baxi",
+      "name": "Baxi",
+      "entity_type": "payment_processor",
+      "category_hint": "payment_intermediary",
+      "aliases": [
+        "BAXI"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "official_verified",
+      "source_urls": [
+        "https://www.cbn.gov.ng/PaymentsSystem/PSPs.html"
+      ],
+      "is_intermediary": true,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "quickteller",
+      "name": "Quickteller",
+      "entity_type": "payment_processor",
+      "category_hint": "payment_intermediary",
+      "aliases": [
+        "QUICKTELLER"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "official_verified",
+      "source_urls": [
+        "https://www.cbn.gov.ng/PaymentsSystem/PSPs.html"
+      ],
+      "is_intermediary": true,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "payattitude",
+      "name": "PayAttitude",
+      "entity_type": "payment_processor",
+      "category_hint": "payment_intermediary",
+      "aliases": [
+        "PAYATTITUDE"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "official_verified",
+      "source_urls": [
+        "https://www.cbn.gov.ng/PaymentsSystem/PSPs.html"
+      ],
+      "is_intermediary": true,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "vfd_microfinance",
+      "name": "VFD Microfinance",
+      "entity_type": "payment_processor",
+      "category_hint": "payment_intermediary",
+      "aliases": [
+        "VFD MICROFINANCE"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "official_verified",
+      "source_urls": [
+        "https://www.cbn.gov.ng/PaymentsSystem/PSPs.html"
+      ],
+      "is_intermediary": true,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "teamapt",
+      "name": "TeamApt",
+      "entity_type": "payment_processor",
+      "category_hint": "payment_intermediary",
+      "aliases": [
+        "TEAMAPT"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "official_verified",
+      "source_urls": [
+        "https://www.cbn.gov.ng/PaymentsSystem/PSPs.html"
+      ],
+      "is_intermediary": true,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "gtbank",
+      "name": "GTBank",
+      "entity_type": "bank",
+      "category_hint": "bank",
+      "aliases": [
+        "GTBANK"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": true,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "guaranty_trust_bank",
+      "name": "Guaranty Trust Bank",
+      "entity_type": "bank",
+      "category_hint": "bank",
+      "aliases": [
+        "GUARANTY TRUST BANK"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": true,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "access_bank",
+      "name": "Access Bank",
+      "entity_type": "bank",
+      "category_hint": "bank",
+      "aliases": [
+        "ACCESS BANK"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": true,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "zenith_bank",
+      "name": "Zenith Bank",
+      "entity_type": "bank",
+      "category_hint": "bank",
+      "aliases": [
+        "ZENITH BANK"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": true,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "uba",
+      "name": "UBA",
+      "entity_type": "bank",
+      "category_hint": "bank",
+      "aliases": [
+        "UBA"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": true,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "united_bank_for_africa",
+      "name": "United Bank for Africa",
+      "entity_type": "bank",
+      "category_hint": "bank",
+      "aliases": [
+        "UNITED BANK FOR AFRICA"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": true,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "first_bank",
+      "name": "First Bank",
+      "entity_type": "bank",
+      "category_hint": "bank",
+      "aliases": [
+        "FIRST BANK"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": true,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "fidelity_bank",
+      "name": "Fidelity Bank",
+      "entity_type": "bank",
+      "category_hint": "bank",
+      "aliases": [
+        "FIDELITY BANK"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": true,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "fcmb",
+      "name": "FCMB",
+      "entity_type": "bank",
+      "category_hint": "bank",
+      "aliases": [
+        "FCMB"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": true,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "stanbic_ibtc",
+      "name": "Stanbic IBTC",
+      "entity_type": "bank",
+      "category_hint": "bank",
+      "aliases": [
+        "STANBIC IBTC"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": true,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "sterling_bank",
+      "name": "Sterling Bank",
+      "entity_type": "bank",
+      "category_hint": "bank",
+      "aliases": [
+        "STERLING BANK"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": true,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "wema_bank",
+      "name": "Wema Bank",
+      "entity_type": "bank",
+      "category_hint": "bank",
+      "aliases": [
+        "WEMA BANK"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": true,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "union_bank",
+      "name": "Union Bank",
+      "entity_type": "bank",
+      "category_hint": "bank",
+      "aliases": [
+        "UNION BANK"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": true,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "polaris_bank",
+      "name": "Polaris Bank",
+      "entity_type": "bank",
+      "category_hint": "bank",
+      "aliases": [
+        "POLARIS BANK"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": true,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "keystone_bank",
+      "name": "Keystone Bank",
+      "entity_type": "bank",
+      "category_hint": "bank",
+      "aliases": [
+        "KEYSTONE BANK"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": true,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "jaiz_bank",
+      "name": "Jaiz Bank",
+      "entity_type": "bank",
+      "category_hint": "bank",
+      "aliases": [
+        "JAIZ BANK"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": true,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "providus_bank",
+      "name": "Providus Bank",
+      "entity_type": "bank",
+      "category_hint": "bank",
+      "aliases": [
+        "PROVIDUS BANK"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": true,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "lotus_bank",
+      "name": "Lotus Bank",
+      "entity_type": "bank",
+      "category_hint": "bank",
+      "aliases": [
+        "LOTUS BANK"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": true,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "globus_bank",
+      "name": "Globus Bank",
+      "entity_type": "bank",
+      "category_hint": "bank",
+      "aliases": [
+        "GLOBUS BANK"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": true,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "ecobank",
+      "name": "Ecobank",
+      "entity_type": "bank",
+      "category_hint": "bank",
+      "aliases": [
+        "ECOBANK"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": true,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "standard_chartered",
+      "name": "Standard Chartered",
+      "entity_type": "bank",
+      "category_hint": "bank",
+      "aliases": [
+        "STANDARD CHARTERED"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": true,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "axa_mansard",
+      "name": "AXA Mansard",
+      "entity_type": "merchant",
+      "category_hint": "insurance",
+      "aliases": [
+        "AXA MANSARD"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "leadway_assurance",
+      "name": "Leadway Assurance",
+      "entity_type": "merchant",
+      "category_hint": "insurance",
+      "aliases": [
+        "LEADWAY ASSURANCE"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "aiico_insurance",
+      "name": "AIICO Insurance",
+      "entity_type": "merchant",
+      "category_hint": "insurance",
+      "aliases": [
+        "AIICO INSURANCE"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "custodian_insurance",
+      "name": "Custodian Insurance",
+      "entity_type": "merchant",
+      "category_hint": "insurance",
+      "aliases": [
+        "CUSTODIAN INSURANCE"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "nem_insurance",
+      "name": "NEM Insurance",
+      "entity_type": "merchant",
+      "category_hint": "insurance",
+      "aliases": [
+        "NEM INSURANCE"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "cornerstone_insurance",
+      "name": "Cornerstone Insurance",
+      "entity_type": "merchant",
+      "category_hint": "insurance",
+      "aliases": [
+        "CORNERSTONE INSURANCE"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "mutual_benefits_assurance",
+      "name": "Mutual Benefits Assurance",
+      "entity_type": "merchant",
+      "category_hint": "insurance",
+      "aliases": [
+        "MUTUAL BENEFITS ASSURANCE"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "piggyvest",
+      "name": "PiggyVest",
+      "entity_type": "financial_platform",
+      "category_hint": "investment",
+      "aliases": [
+        "PIGGYVEST"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "cowrywise",
+      "name": "Cowrywise",
+      "entity_type": "financial_platform",
+      "category_hint": "investment",
+      "aliases": [
+        "COWRYWISE"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "bamboo",
+      "name": "Bamboo",
+      "entity_type": "financial_platform",
+      "category_hint": "investment",
+      "aliases": [
+        "BAMBOO"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "risevest",
+      "name": "Risevest",
+      "entity_type": "financial_platform",
+      "category_hint": "investment",
+      "aliases": [
+        "RISEVEST"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "trove",
+      "name": "Trove",
+      "entity_type": "financial_platform",
+      "category_hint": "investment",
+      "aliases": [
+        "TROVE"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "chaka",
+      "name": "Chaka",
+      "entity_type": "financial_platform",
+      "category_hint": "investment",
+      "aliases": [
+        "CHAKA"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "arm_investment",
+      "name": "ARM Investment",
+      "entity_type": "financial_platform",
+      "category_hint": "investment",
+      "aliases": [
+        "ARM INVESTMENT"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "stanbic_ibtc_asset_management",
+      "name": "Stanbic IBTC Asset Management",
+      "entity_type": "financial_platform",
+      "category_hint": "investment",
+      "aliases": [
+        "STANBIC IBTC ASSET MANAGEMENT"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "meristem",
+      "name": "Meristem",
+      "entity_type": "financial_platform",
+      "category_hint": "investment",
+      "aliases": [
+        "MERISTEM"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "afrinvest",
+      "name": "Afrinvest",
+      "entity_type": "financial_platform",
+      "category_hint": "investment",
+      "aliases": [
+        "AFRINVEST"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "landwey",
+      "name": "LandWey",
+      "entity_type": "marketplace",
+      "category_hint": "housing",
+      "aliases": [
+        "LANDWEY"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "mixta_africa",
+      "name": "Mixta Africa",
+      "entity_type": "marketplace",
+      "category_hint": "housing",
+      "aliases": [
+        "MIXTA AFRICA"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "updc",
+      "name": "UPDC",
+      "entity_type": "marketplace",
+      "category_hint": "housing",
+      "aliases": [
+        "UPDC"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "revolutionplus_property",
+      "name": "RevolutionPlus Property",
+      "entity_type": "marketplace",
+      "category_hint": "housing",
+      "aliases": [
+        "REVOLUTIONPLUS PROPERTY"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "adron_homes",
+      "name": "Adron Homes",
+      "entity_type": "marketplace",
+      "category_hint": "housing",
+      "aliases": [
+        "ADRON HOMES"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "rentsmallsmall",
+      "name": "RentSmallSmall",
+      "entity_type": "marketplace",
+      "category_hint": "housing",
+      "aliases": [
+        "RENTSMALLSMALL"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "spleet",
+      "name": "Spleet",
+      "entity_type": "marketplace",
+      "category_hint": "housing",
+      "aliases": [
+        "SPLEET"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "propertypro",
+      "name": "PropertyPro",
+      "entity_type": "marketplace",
+      "category_hint": "housing",
+      "aliases": [
+        "PROPERTYPRO"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    },
+    {
+      "id": "privateproperty",
+      "name": "PrivateProperty",
+      "entity_type": "marketplace",
+      "category_hint": "housing",
+      "aliases": [
+        "PRIVATEPROPERTY"
+      ],
+      "match_strategy": "token_boundary",
+      "evidence_status": "candidate",
+      "source_urls": [],
+      "is_intermediary": false,
+      "requires_context": true,
+      "geographic_scope": "Nigeria (availability varies by region)",
+      "notes": "Brand match does not establish purchased goods or service.",
+      "typical_purchases": [],
+      "known_locations": []
+    }
+  ],
+  "narration_patterns": [
+    {
+      "id": "pos_purchase",
+      "regex": "\\bPOS\\b|\\bPURCHASE\\b",
+      "channel": "pos",
+      "category": null,
+      "reason": "POS is a payment channel, not a purpose"
+    },
+    {
+      "id": "nip_transfer",
+      "regex": "\\bNIP\\b|\\bNEFT\\b|\\bTRF\\b|\\bTRANSFER\\b",
+      "channel": "bank_transfer",
+      "category": null,
+      "reason": "Transfer alone does not identify spending purpose"
+    },
+    {
+      "id": "atm_withdrawal",
+      "regex": "\\bATM\\b.*\\b(WDL|WITHDRAWAL|CASH)\\b",
+      "channel": "atm",
+      "category": "cash_withdrawal",
+      "reason": "Cash use is unknown"
+    },
+    {
+      "id": "pos_cashout",
+      "regex": "\\b(CASHOUT|CASH OUT|POS WITHDRAWAL)\\b",
+      "channel": "pos_agent",
+      "category": "cash_withdrawal",
+      "reason": "Cash use is unknown"
+    },
+    {
+      "id": "electricity_token",
+      "regex": "\\b(PREPAID|METER TOKEN|ELECTRICITY TOKEN)\\b",
+      "channel": null,
+      "category": "electricity",
+      "reason": "Requires biller or additional context"
+    },
+    {
+      "id": "airtime",
+      "regex": "\\b(AIRTIME|RECHARGE|VTU)\\b",
+      "channel": null,
+      "category": "telecom",
+      "reason": "Telecom top-up"
+    },
+    {
+      "id": "mobile_data",
+      "regex": "\\b(DATA BUNDLE|DATA PLAN|INTERNET SUBSCRIPTION)\\b",
+      "channel": null,
+      "category": "telecom",
+      "reason": "Telecom data"
+    },
+    {
+      "id": "bank_fee",
+      "regex": "\\b(SMS ALERT|STAMP DUTY|TRANSFER CHARGE|MAINTENANCE FEE|EMTL)\\b",
+      "channel": null,
+      "category": "bank_fees",
+      "reason": "Fee narration"
+    },
+    {
+      "id": "reversal",
+      "regex": "\\b(REVERSAL|REVERSED|REFUND|REV POS)\\b",
+      "channel": null,
+      "category": "reversal_or_refund",
+      "reason": "Must reconcile original transaction"
+    },
+    {
+      "id": "salary",
+      "regex": "\\b(SALARY|PAYROLL|WAGES)\\b",
+      "channel": null,
+      "category": "income_candidate",
+      "reason": "Confirm direction and source"
+    },
+    {
+      "id": "rent",
+      "regex": "\\b(RENT|TENANCY|HOUSE RENT)\\b",
+      "channel": null,
+      "category": "housing_candidate",
+      "reason": "Narration hint; verify recipient and context"
+    },
+    {
+      "id": "school_fees",
+      "regex": "\\b(TUITION|SCHOOL FEES|ACCEPTANCE FEE)\\b",
+      "channel": null,
+      "category": "education_candidate",
+      "reason": "Narration hint"
+    },
+    {
+      "id": "fuel",
+      "regex": "\\b(PMS|PETROL|DIESEL|FUEL)\\b",
+      "channel": null,
+      "category": "fuel_candidate",
+      "reason": "Could be vehicle or generator"
+    },
+    {
+      "id": "market_generic",
+      "regex": "\\b(MARKET|MALLAM|PROVISION STORE|FOODSTUFF)\\b",
+      "channel": null,
+      "category": "groceries_candidate",
+      "reason": "Generic description is weak evidence"
+    }
+  ],
+  "classification_policy": {
+    "priority": [
+      "reversal_and_duplicate_reconciliation",
+      "direction_and_account_ownership",
+      "explicit_biller_or_merchant_match",
+      "user_confirmed_mapping",
+      "jev_semantic_classification",
+      "unknown_and_user_review"
+    ],
+    "merchant_match_requires_token_boundaries": true,
+    "minimum_auto_accept_confidence": 0.9,
+    "confidence_threshold_is_provisional": true,
+    "payment_intermediary_never_implies_expense_category": true,
+    "merchant_default_is_category_hint_only": true,
+    "unknown_p2p_transfers_are_not_automatically_expenses": true,
+    "ambiguous_supermarkets_can_sell_non_grocery_goods": true,
+    "cash_withdrawals_are_not_automatically_final_consumption": true
+  },
+  "sources": {
+    "supermarkets": [
+      "https://shoprite.ng/locate-a-store/",
+      "https://sparnigeria.com/store-locator/",
+      "https://princeebeano.com/",
+      "https://corporate.foodco.ng/about-us/"
+    ],
+    "restaurants": [
+      "https://www.kilimanjaro-restaurants.com/store-location",
+      "https://www.sweetsensation.ng/"
+    ],
+    "electricity": [
+      "https://nerc.gov.ng/need-help/services/licencees/",
+      "https://bpe.gov.ng/staging/electric-power/"
+    ],
+    "payments": [
+      "https://www.cbn.gov.ng/PaymentsSystem/PSPs.html"
+    ],
+    "fuel": [
+      "https://retail.nnpcgroup.com/"
+    ],
+    "telecom": [
+      "https://cdn-webportal.airtelstream.net/website/investor/main/AR2026/reports/nigeria-mobile-services-17230.html"
+    ]
+  },
+  "test_cases": [
+    {
+      "narration": "POS SPAR WUSE 2",
+      "expected_category": "groceries",
+      "certainty": "candidate"
+    },
+    {
+      "narration": "NIP TRF TO ADEBAYO",
+      "expected_category": "transfer_unknown",
+      "certainty": "unknown"
+    },
+    {
+      "narration": "FLUTTERWAVE WEB PAYMENT",
+      "expected_category": "unknown",
+      "certainty": "unknown"
+    },
+    {
+      "narration": "IKEDC PREPAID TOKEN",
+      "expected_category": "electricity",
+      "certainty": "high"
+    },
+    {
+      "narration": "POS CHICKEN REPUBLIC",
+      "expected_category": "dining",
+      "certainty": "high"
+    },
+    {
+      "narration": "ATM CASH WITHDRAWAL",
+      "expected_category": "cash_withdrawal",
+      "certainty": "high"
+    },
+    {
+      "narration": "REV POS SPAR",
+      "expected_category": "reversal_or_refund",
+      "certainty": "requires_reconciliation"
+    }
+  ]
+}
