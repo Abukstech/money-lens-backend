@@ -13,6 +13,7 @@
     "test:live": "vitest run test/live.test.ts",
     "db:generate": "prisma generate",
     "db:migrate": "prisma migrate deploy",
+    "reclassify:unresolved": "node --env-file-if-exists=.env --import tsx scripts/reclassify-unresolved.ts",
     "evaluate": "node --import tsx scripts/evaluate.ts",
     "format:check": "prettier --check src test scripts"
   },
@@ -47,6 +48,7 @@
     "pdf-lib": "^1.17.1",
     "prettier": "^3.9.10",
     "prisma": "^6.19.0",
+    "railway": "^3.17.0",
     "supertest": "^7.1.0",
     "tsx": "^4.20.0",
     "typescript": "^5.9.0",

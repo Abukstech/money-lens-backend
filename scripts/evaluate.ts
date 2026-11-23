@@ -5,11 +5,21 @@ import { Config } from '../src/common/config';
 import { Db } from '../src/common/db';
 import { Privacy } from '../src/common/privacy';
 import { Registry } from '../src/merchants/registry';
+import { narrationFacts } from '../src/classification/evidence';
 import { Policy } from '../src/classification/policy';
 import { JevClient } from '../src/classification/jev';
 import { Classifier } from '../src/classification/classifier';
 import { Transactions } from '../src/transactions/service';
-import { categories, categorySchema } from '../src/classification/ontology';
+import DecimalJs from 'decimal.js';
+const Decimal = DecimalJs.clone({ precision: 40 });
+import { Prisma } from '@prisma/client';
+import { money } from '../src/transactions/contracts';
+import {
+  categories,
+  categorySchema,
+  ONTOLOGY_VERSION,
+  POLICY_VERSION,
+} from '../src/classification/ontology';
 import { fixtures } from './fixtures';
 import { transaction } from '../test/helpers';
 
@@ -17,6 +27,8 @@ async function main() {
   const config = new Config();
   // Offline evaluation by default. Never spend API credits merely by evaluating fixtures.
   if (process.env.EVALUATE_LIVE !== 'true') config.values.JEV_API_KEY = '';
+  // Measure prospective semantic acceptance without enabling production automation.
+  config.values.SEMANTIC_AUTO_ACCEPT = false;
   const db = new Db();
   const privacy = new Privacy(config);
   const registry = new Registry();
@@ -40,6 +52,7 @@ async function main() {
           direction: z.enum(['debit', 'credit']),
           expectedCategory: categorySchema,
           expectedStatus: z.enum(['auto_classified', 'requires_user_tagging']),
+          amount: money.default('45000.00'),
           expectedMerchantId: z.string().nullable().optional(),
         }),
       )
@@ -60,17 +73,37 @@ async function main() {
     latencyMs: number;
     expectedMerchantId: string | null | undefined;
     actualMerchantId: string | null;
+    acceptedCategory: string;
+    autoAccepted: boolean;
+    direction: string;
+    amount: string;
+    source: string;
+    semanticCandidate: boolean;
   }[] = [];
   for (const f of dataset) {
     const start = performance.now();
     const decision = await classifier.decide(
-      transaction(f.description, { direction: f.direction }),
+      transaction(f.description, { direction: f.direction, amount: new Prisma.Decimal(f.amount) }),
     );
     const merchantMatches = registry.match(f.description);
     results.push({
       expectedMerchantId: f.expectedMerchantId,
       actualMerchantId:
         merchantMatches.merchants.length === 1 ? merchantMatches.merchants[0].id : null,
+      acceptedCategory: decision.category,
+      autoAccepted: decision.status === 'auto_classified',
+      amount: f.amount,
+      direction: f.direction,
+      source: decision.source,
+      semanticCandidate:
+        decision.source === 'jev' &&
+        decision.reasonCode === 'CONFIRMATION_REQUIRED' &&
+        !!decision.suggestedCategory &&
+        narrationFacts(f.description, f.direction).semanticPurposes.includes(
+          decision.suggestedCategory,
+        ) &&
+        (decision.evidence?.semanticAcceptanceConfidence ?? 0) >=
+          config.values.AUTO_CLASSIFY_THRESHOLD,
       expected: f.expectedCategory,
       predicted: decision.suggestedCategory ?? decision.category,
       statusCorrect: f.expectedStatus === decision.status,
@@ -90,7 +123,14 @@ async function main() {
     const fn = results.filter((r) => r.expected === c && r.predicted !== c).length;
     return (2 * tp) / (2 * tp + fp + fn) || 0;
   });
-  const confident = results.filter((r) => r.confidence !== null);
+  const confident = results.filter((r) => r.confidence !== null && r.source === 'jev');
+  const automatic = results.filter((r) => r.autoAccepted);
+  const semanticCandidates = results.filter((r) => r.semanticCandidate);
+  const sum = (rows: typeof results) =>
+    rows.reduce((total, r) => total.plus(r.amount), new Decimal(0));
+  const automaticPrecision = automatic.length
+    ? automatic.filter((r) => r.acceptedCategory === r.expected).length / automatic.length
+    : null;
   const latencies = results.map((r) => r.latencyMs).sort((a, b) => a - b);
   const inputTokens = results.reduce((a, r) => a + r.inputTokens, 0),
     outputTokens = results.reduce((a, r) => a + r.outputTokens, 0);
@@ -101,6 +141,53 @@ async function main() {
       {
         dataset: file ? 'human_reviewed' : 'authored_synthetic_regression',
         cases: results.length,
+        policyVersion: POLICY_VERSION,
+        ontologyVersion: ONTOLOGY_VERSION,
+        datasetChecksum: registry.checksum,
+        automaticPrecision,
+        semanticCandidateCount: semanticCandidates.length,
+        semanticCandidatePrecision: semanticCandidates.length
+          ? semanticCandidates.filter((r) => r.predicted === r.expected).length /
+            semanticCandidates.length
+          : null,
+        semanticCandidateByCategory: Object.fromEntries(
+          categories.map((category) => {
+            const slice = semanticCandidates.filter((r) => r.predicted === category);
+            return [
+              category,
+              {
+                sampleSize: slice.length,
+                precision: slice.length
+                  ? slice.filter((r) => r.expected === category).length / slice.length
+                  : null,
+              },
+            ];
+          }),
+        ),
+        precisionTarget: 0.98,
+        meetsObservedPrecisionTarget:
+          !!file && automaticPrecision !== null && automaticPrecision >= 0.98,
+        automaticCoverageByCount: automatic.length / results.length,
+        automaticCoverageByValue: sum(results).gt(0)
+          ? sum(automatic).div(sum(results)).toNumber()
+          : null,
+        automaticByCategory: Object.fromEntries(
+          categories.map((category) => {
+            const slice = automatic.filter((r) => r.acceptedCategory === category);
+            return [
+              category,
+              {
+                sampleSize: slice.length,
+                precision: slice.length
+                  ? slice.filter((r) => r.expected === category).length / slice.length
+                  : null,
+              },
+            ];
+          }),
+        ),
+        unresolvedTransfers: results.filter(
+          (r) => r.pendingActual && r.acceptedCategory === 'transfer_unknown',
+        ).length,
         categorySuggestionAccuracy: accuracy,
         macroF1: f1.reduce((a, b) => a + b, 0) / f1.length,
         macroF1Categories: labels,
@@ -141,6 +228,9 @@ async function main() {
         userCorrectionRate: null,
         limitations: [
           'Synthetic fixtures are not production accuracy evidence.',
+          'Reviewed inputs must be representative and held out; observed precision is not a population guarantee.',
+          'Question reduction and subsequent correction rates require live grouped-review and audit observations.',
+          'Confidence calibration excludes deterministic and user-rule confidence values.',
           'Merchant false positives are evaluated only where merchant identities were labeled.',
           'User correction rate requires observed user feedback.',
           'Confidence calibration requires representative human-reviewed held-out data.',

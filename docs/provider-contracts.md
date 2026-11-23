@@ -22,7 +22,7 @@ https://docs.mistral.ai/admin/monitor-comply/zero-data-retention
 ## Jev / TypeSafe
 
 - `POST https://api.typesafe.ai/v1/systemone`, bearer API key.
-- Request: `model`, minimized `state`, and `questions.category={type:"choice",instructions,criteria}`. All 30 ontology categories have definitions, including `unknown` and `transfer_unknown`.
+- Request: `model`, minimized `state`, and `questions.category={type:"choice",instructions,criteria}`. All 33 ontology categories have definitions, including `unknown` and `transfer_unknown`.
 - Response: `model`, `answers.category={type:"choice",choice,confidence,probabilities}`, `usage={input_tokens,output_tokens}`. Validate all keys/ranges, approximate probability sum and that the selected choice has a maximal probability.
 - `GET /v1/models` is the provider's authenticated model-discovery endpoint. `jev-latest` is configurable; record the returned `model` verbatim. It may still be an alias, so do not claim an immutable model version if the provider does not return one.
 - No multi-transaction batch endpoint is assumed. Workers use identifier-only jobs and the client bounds concurrent requests. At most three attempts, 15 seconds each by default, with exponential jitter and rate-limit handling within a bounded total deadline.
@@ -38,15 +38,20 @@ Off by default. To opt in after independent human-reviewed evaluation, set `SEMA
 
 ```json
 {
-  "policyVersion": "1.0.0-conservative",
+  "policyVersion": "2.0.0-evidence-first",
+  "ontologyVersion": "1.1.0",
+  "datasetChecksum": "<current-registry-sha256>",
+  "returnedModel": "<exact-returned-model>",
+  "autoClassifyThreshold": 0.90,
+  "categories": { "housing": { "precision": 0.99, "sampleSize": 200 } },
   "model": "configured-model-name",
   "humanReviewed": true,
   "reportSha256": "<64-character SHA-256 of reviewed evaluation report>",
-  "expiresAt": "2026-11-01T00:00:00Z"
+  "expiresAt": "<future-ISO-8601-expiry>"
 }
 ```
 
-The deployment review must confirm that report actually exists, uses representative held-out labels and supports the selected thresholds. This record is a deployment attestation, not a substitute for calibration. Semantic automatic acceptance remains restricted to explicit purpose cues without generic transfer ambiguity; seed hints, processor-only evidence, contradictory direction, extraction issues and unresolved refunds cannot be auto-accepted. Re-evaluate model aliases after provider updates.
+The deployment review must confirm that report actually exists, uses representative held-out labels and supports the selected thresholds. This record is a deployment attestation, not a substitute for calibration. Each enabled category also requires observed held-out precision >= 0.98 and at least 100 automatic examples; these minimum gates do not establish a statistical guarantee. Semantic automatic acceptance remains restricted to explicit purpose cues without generic transfer ambiguity; seed hints, processor-only evidence, contradictory direction, extraction issues and unresolved refunds cannot be auto-accepted. Re-evaluate model aliases after provider updates.
 
 Fixture metrics are reported as suggestion accuracy, macro-F1, unknown detection and pending routing. Deterministic rule confidence is not model calibration. No behavioral score or psychological inference is produced.
 

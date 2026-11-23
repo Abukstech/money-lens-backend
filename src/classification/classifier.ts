@@ -1,26 +1,13 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { Transaction } from '@prisma/client';
 import { Db } from '../common/db';
-import { normalizeNarration } from '../common/privacy';
 import { Registry } from '../merchants/registry';
-import { Transactions, economicType } from '../transactions/service';
+import { Transactions, assertCategoryDirection, economicType } from '../transactions/service';
 import { JevClient } from './jev';
-import { Decision, narrationFacts, Policy } from './policy';
-import { Category, categorySchema, mapHint } from './ontology';
+import { Decision, Policy } from './policy';
+import { narrationFacts, PATTERN_VERSION } from './evidence';
+import { categorySchema, mapHint } from './ontology';
 
-const safeMerchantCategories = new Set<Category>([
-  'groceries',
-  'dining',
-  'utilities',
-  'transport',
-  'telecommunications',
-  'healthcare',
-  'education',
-  'shopping',
-  'entertainment',
-  'subscriptions',
-  'gambling',
-]);
 @Injectable()
 export class Classifier {
   constructor(
@@ -32,98 +19,185 @@ export class Classifier {
   ) {}
 
   async decide(t: Transaction): Promise<Decision> {
-    const base = this.policy.base(
-      t.description,
-      t.direction,
-    );
-  
-    const facts = narrationFacts(
-      t.description,
-      t.direction,
-    );
-  
-    // Extraction integrity is separate from categorization.
-    const blockingIssues = t.validationIssues.filter(
-      issue => issue !== 'POSSIBLE_DUPLICATE_REVIEW',
-    );
-  
-    if (blockingIssues.length || facts.contradiction) {
+    const base = this.policy.base(t.description, t.direction);
+    const facts = narrationFacts(t.description, t.direction);
+    if (t.status === 'user_confirmed') {
       return {
         ...base,
-        reasonCode: 'EXTRACTION_REVIEW_REQUIRED',
+        category: categorySchema.parse(t.category),
+        suggestedCategory: null,
+        status: t.status,
+        source: t.source,
+        confidence: t.confidence,
+        economicType: t.economicType,
+        reasonCode: 'USER_CONFIRMED',
+        linkedTransactionId: t.linkedTransactionId,
+        channel: t.channel,
       };
     }
-  
+    if (t.validationIssues.length || facts.contradiction)
+      return { ...base, reasonCode: 'EXTRACTION_REVIEW_REQUIRED' };
+
+    // A reversal is not a fresh purchase, even if its narration mentions a bill.
+    if (facts.reversal) {
+      if (t.direction === 'credit' && t.referenceHash) {
+        const candidates = await this.db.transaction.findMany({
+          where: {
+            userId: t.userId,
+            id: { not: t.id },
+            direction: 'debit',
+            referenceHash: t.referenceHash,
+            amount: t.amount,
+            ...(t.accountHash ? { accountHash: t.accountHash } : {}),
+            date: { lte: t.date, gte: new Date(t.date.valueOf() - 120 * 86400000) },
+            validationIssues: { isEmpty: true },
+          },
+          take: 2,
+        });
+        if (candidates.length === 1 && (t.accountHash || !candidates[0].accountHash)) {
+          const linked = await this.db.transaction.count({
+            where: {
+              userId: t.userId,
+              linkedTransactionId: candidates[0].id,
+              id: { not: t.id },
+              status: { in: ['auto_classified', 'user_confirmed'] },
+            },
+          });
+          if (!linked)
+            return {
+              ...base,
+              category: 'refund',
+              status: 'auto_classified',
+              source: 'deterministic',
+              confidence: 1,
+              economicType: 'refund',
+              linkedTransactionId: candidates[0].id,
+              reasonCode: 'REFUND_RECONCILED',
+              evidence: {
+                patternIds: ['unique_refund_reference'],
+                patternVersion: PATTERN_VERSION,
+              },
+            };
+        }
+      }
+      return {
+        ...base,
+        suggestedCategory: t.direction === 'credit' ? 'refund' : null,
+        reasonCode: 'REFUND_RECONCILIATION_REQUIRED',
+      };
+    }
+
+    if (facts.paymentStatusUnclear)
+      return { ...base, reasonCode: 'PAYMENT_STATUS_REVIEW_REQUIRED' };
+
+    if (t.recipientHash) {
+      const rules = await this.db.recipientRule.findMany({
+        where: {
+          userId: t.userId,
+          recipientHash: t.recipientHash,
+          deletedAt: null,
+          direction: t.direction,
+          currency: t.currency,
+          minAmount: { lte: t.amount },
+          maxAmount: { gte: t.amount },
+        },
+        orderBy: { id: 'asc' },
+      });
+      const matching = rules.filter(
+        (rule) =>
+          rule.narrationTokens.length > 0 &&
+          rule.narrationTokens.every((token) =>
+            ` ${facts.n} `.includes(` ${token.toUpperCase()} `),
+          ),
+      );
+      if (new Set(matching.map((rule) => rule.category)).size > 1)
+        return { ...base, reasonCode: 'CONFLICTING_USER_RULES' };
+      if (matching.length) {
+        const rule = matching[0];
+        const category = categorySchema.safeParse(rule.category);
+        if (category.success && !['unknown', 'transfer_unknown'].includes(category.data)) {
+          try {
+            assertCategoryDirection(category.data, t.direction);
+            return {
+              ...base,
+              category: category.data,
+              status: 'auto_classified',
+              source: 'user_rule',
+              confidence: 1,
+              economicType: economicType(category.data, t.direction),
+              reasonCode: 'USER_RULE_MATCHED',
+              evidence: { ruleId: rule.id, ruleVersion: rule.version },
+            };
+          } catch {
+            return { ...base, reasonCode: 'INVALID_USER_RULE' };
+          }
+        }
+      }
+    }
+    if (facts.conflictingPurposes) return { ...base, reasonCode: 'CONFLICTING_PURPOSES' };
     const matches = this.registry.match(t.description);
-  
-    if (matches.ambiguous) {
+    if (matches.ambiguous) return { ...base, reasonCode: 'CONFLICTING_MERCHANTS' };
+    const purpose = facts.cash ? 'cash_withdrawal' : facts.purposes[0];
+    if (t.direction === 'debit' && purpose) {
       return {
         ...base,
-        reasonCode: 'CONFLICTING_MERCHANTS',
+        category: purpose,
+        status: 'auto_classified',
+        source: 'deterministic',
+        confidence: 1,
+        merchantId: matches.merchants[0]?.id ?? null,
+        economicType: economicType(purpose, t.direction),
+        reasonCode: 'EXPLICIT_PURPOSE',
+        evidence: {
+          patternIds: facts.cash ? ['cash_withdrawal'] : facts.patterns,
+          patternVersion: PATTERN_VERSION,
+        },
       };
     }
-   
-const context = {
-  description: t.description,
-  direction: t.direction,
-  currency: t.currency,
-  channel: facts.channel,
-  isTransfer: facts.transfer,
-  isPossibleReversal: facts.reversal,
-
-  merchantEvidence: matches.merchants.map(m => ({
-    name: m.name,
-
-    categoryHint:
-      mapHint(m.category_hint) ?? m.category_hint,
-
-    verification: m.evidence_status,
-    requiresContext: m.requires_context,
-
-    geographicScope: m.geographic_scope,
-    knownLocations: m.known_locations,
-
-    typicalPurchases: m.typical_purchases.map(p => ({
-      category: p.category,
-      examples: p.examples,
-      evidence: p.evidence,
-      sourceUrls: p.source_urls,
-    })),
-  })),
-
-  intermediaryNames: matches.processors.map(
-    p => p.name,
-  ),
-};
-
-if (
-  process.env.JEV_DEBUG_PAYLOAD === '1' &&
-  process.env.JEV_BENCH_LIVE === '1'
-) {
-  console.log(
-    '\n[JEV CLASSIFIER CONTEXT]\n',
-    JSON.stringify(context, null, 2),
-  );
-}
-
-  
-    if (!this.jev.available()) {
+    if (!this.jev.available())
       return {
         ...base,
+        suggestedCategory:
+          t.direction === 'debit' &&
+          matches.hint &&
+          !['income', 'refund', 'internal_transfer', 'savings', 'investments'].includes(
+            matches.hint,
+          )
+            ? matches.hint
+            : null,
+        merchantId: matches.merchants[0]?.id ?? null,
         reasonCode: 'JEV_NOT_CONFIGURED',
       };
-    }
-  
     let invoked = false;
-  
     try {
       const answer = await this.jev.classify(
-        context,
+        {
+          description: t.description,
+          direction: t.direction,
+          currency: t.currency,
+          channel: facts.channel,
+          isTransfer: facts.transfer,
+          isPossibleReversal: facts.reversal,
+          merchantEvidence: matches.merchants.map((m) => ({
+            name: m.name,
+            categoryHint: mapHint(m.category_hint) ?? m.category_hint,
+            verification: m.evidence_status,
+            requiresContext: m.requires_context,
+            geographicScope: m.geographic_scope,
+            knownLocations: m.known_locations,
+            typicalPurchases: m.typical_purchases.map((p) => ({
+              category: p.category,
+              examples: p.examples,
+              evidence: p.evidence,
+              sourceUrls: p.source_urls,
+            })),
+          })),
+          intermediaryNames: matches.processors.map((p) => p.name),
+        },
         () => {
           invoked = true;
         },
       );
-  
       const decision: Decision = {
         ...base,
         merchantId: matches.merchants[0]?.id ?? null,
@@ -134,98 +208,54 @@ if (
         outputTokens: answer.outputTokens,
         confidence: answer.confidence,
       };
-
-      const acceptanceConfidence = Math.min(
-        answer.confidence,
-        answer.choiceProbability,
-      );
-  
-      // Reject invalid or unsafe automatic outcomes.
       const valid = categorySchema.safeParse(answer.category);
-  
       if (
         !valid.success ||
         !Number.isFinite(answer.confidence) ||
+        !Number.isFinite(answer.choiceProbability) ||
         answer.confidence < 0 ||
-        answer.confidence > 1
-      ) {
-        return {
-          ...decision,
-          reasonCode: 'INVALID_JEV_DECISION',
-        };
-      }
-  
+        answer.confidence > 1 ||
+        answer.choiceProbability < 0 ||
+        answer.choiceProbability > 1
+      )
+        return { ...decision, confidence: null, reasonCode: 'INVALID_JEV_DECISION' };
       const category = valid.data;
-
-      const intermediaryOnly =
-  matches.processors.length > 0 &&
-  matches.merchants.length === 0;
-
-const explicitTransferPurpose =
-  /\b(SALARY|PAYROLL|RENT|TUITION|SCHOOL FEES|AIRTIME|DATA BUNDLE|ELECTRICITY|FAMILY SUPPORT|FREELANCE PAYMENT|ESTATE LEVY)\b/.test(facts.n) ||
-  matches.merchants.length > 0;
-
-if (intermediaryOnly) {
-  return {
-    ...decision,
-    reasonCode: 'INSUFFICIENT_PURPOSE_EVIDENCE',
-  };
-}
-
-if (facts.transfer && !explicitTransferPurpose) {
-  return {
-    ...decision,
-    reasonCode: 'UNEXPLAINED_TRANSFER',
-  };
-}
-
-if (facts.reversal && t.direction === 'credit') {
-  return {
-    ...decision,
-    suggestedCategory:
-      category === 'refund' ? 'refund' : null,
-    reasonCode: 'REFUND_RECONCILIATION_REQUIRED',
-  };
-}
-  
-      // JEV must not invent verified account ownership,
-      // refund links, or economic purpose.
-      const requiresContext = [
-        'unknown',
-        'transfer_unknown',
-        'other',
-        'internal_transfer',
-        'refund',
-      ].includes(category);
-  
-      const directionConflict =
-        (t.direction === 'debit' &&
-          category === 'income') ||
-        (t.direction === 'credit' &&
-          !['income', 'refund', 'internal_transfer',
-            'unknown', 'transfer_unknown'].includes(category));
-  
-      if (requiresContext || directionConflict) {
+      decision.evidence = {
+        semanticAcceptanceConfidence: Math.min(answer.confidence, answer.choiceProbability),
+      };
+      if (matches.processors.length && !matches.merchants.length && !facts.hasPurpose)
+        return { ...decision, reasonCode: 'INSUFFICIENT_PURPOSE_EVIDENCE' };
+      if (facts.transfer && !facts.hasPurpose && !matches.merchants.length)
+        return { ...decision, reasonCode: 'UNEXPLAINED_TRANSFER' };
+      try {
+        assertCategoryDirection(category, t.direction);
+      } catch {
+        return { ...decision, reasonCode: 'ADDITIONAL_CONTEXT_REQUIRED' };
+      }
+      if (
+        [
+          'unknown',
+          'transfer_unknown',
+          'other',
+          'internal_transfer',
+          'refund',
+          'gift_received',
+          'loan_received',
+          'repayment_received',
+        ].includes(category)
+      )
         return {
           ...decision,
-          suggestedCategory:
-            category === 'unknown' ||
-            category === 'transfer_unknown'
-              ? null
-              : category,
+          suggestedCategory: ['unknown', 'transfer_unknown'].includes(category) ? null : category,
           reasonCode: 'ADDITIONAL_CONTEXT_REQUIRED',
         };
-      }
-  
-      // JEV chooses the category.
-      // Our existing policy applies the confidence threshold.
       const accepted = this.policy.applySuggestion(
         decision,
         category,
-        acceptanceConfidence,
-        this.policy.semanticAutoEnabled()
+        Math.min(answer.confidence, answer.choiceProbability),
+        facts.semanticPurposes.includes(category) &&
+          this.policy.semanticAutoEnabled(answer.model, this.registry.checksum, category),
       );
-      
       return {
         ...accepted,
         confidence: answer.confidence,
@@ -234,16 +264,11 @@ if (facts.reversal && t.direction === 'credit') {
             ? economicType(accepted.category, t.direction)
             : 'unresolved',
       };
-  
     } catch {
-      return {
-        ...base,
-        jevInvoked: invoked,
-        reasonCode: 'JEV_UNAVAILABLE',
-      };
+      return { ...base, jevInvoked: invoked, reasonCode: 'JEV_UNAVAILABLE' };
     }
   }
-  
+
   async run(id: string, expectedRevision: number) {
     const t = await this.db.transaction.findUnique({ where: { id } });
     if (!t || t.revision !== expectedRevision || t.status === 'user_confirmed') return;

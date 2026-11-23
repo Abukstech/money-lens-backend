@@ -13,6 +13,7 @@ import {
 export interface CreateExtractionDraftInput {
   pdf: Buffer;
   signal: AbortSignal;
+  hashIdentifier?: (kind: string, value: string) => string;
 
   // These values must eventually come from
   // authenticated, authorized backend context.
@@ -58,6 +59,14 @@ export async function createExtractionDraft(
       reference: row.reference == null ? null : sanitizeNarration(row.reference),
       accountIdentifier: null,
       recipientIdentifier: null,
+      accountHash:
+        row.accountIdentifier && input.hashIdentifier
+          ? input.hashIdentifier('account', row.accountIdentifier)
+          : null,
+      recipientHash:
+        row.recipientIdentifier && input.hashIdentifier
+          ? input.hashIdentifier('recipient', row.recipientIdentifier)
+          : null,
       page: row.page,
       row: row.row,
     }));
@@ -114,6 +123,8 @@ export async function createExtractionDraft(
           reference: row.reference,
           accountIdentifier: row.accountIdentifier,
           recipientIdentifier: row.recipientIdentifier,
+          accountHash: row.accountHash,
+          recipientHash: row.recipientHash,
 
           page: row.page,
           row: row.row,

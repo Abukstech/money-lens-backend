@@ -39,6 +39,8 @@ export function transaction(
     datasetChecksum: null,
     revision: 0,
     classifiedAt: null,
+    reasonCode: null,
+    evidence: null,
     createdAt: new Date(),
     updatedAt: new Date(),
     ...overrides,

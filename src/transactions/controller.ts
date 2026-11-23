@@ -17,7 +17,14 @@ import { AuthGuard, CurrentUser } from '../auth/auth';
 import { SchemaPipe } from '../common/http';
 import { categories, ONTOLOGY_VERSION, definitions } from '../classification/ontology';
 import { Transactions } from './service';
-import { correctionInput, feedbackInput, ruleUpdate, transactionInput } from './contracts';
+import {
+  bulkFeedbackInput,
+  correctionInput,
+  feedbackInput,
+  reviewQuery,
+  ruleUpdate,
+  transactionInput,
+} from './contracts';
 const transactionProperties = {
   id: { type: 'string' },
   date: { type: 'string', format: 'date' },
@@ -53,6 +60,28 @@ export class TransactionsController {
     @Body(new SchemaPipe(transactionInput)) input: z.infer<typeof transactionInput>,
   ) {
     return this.transactions.submit(userId, input);
+  }
+  @Post('transactions/classification/bulk')
+  bulkFeedback(
+    @CurrentUser() userId: string,
+    @Body(new SchemaPipe(bulkFeedbackInput)) input: z.infer<typeof bulkFeedbackInput>,
+  ) {
+    return this.transactions.bulkFeedback(userId, input);
+  }
+  @Get('classification/review-groups')
+  reviewGroups(
+    @CurrentUser() userId: string,
+    @Query(new SchemaPipe(reviewQuery)) query: z.infer<typeof reviewQuery>,
+  ) {
+    return this.transactions.reviewGroups(userId, query.statementId, query.cursor);
+  }
+  @Get('classification/review-groups/:key/transactions')
+  reviewMembers(
+    @CurrentUser() userId: string,
+    @Param('key') key: string,
+    @Query(new SchemaPipe(reviewQuery)) query: z.infer<typeof reviewQuery>,
+  ) {
+    return this.transactions.reviewMembers(userId, query.statementId, key, query.cursor);
   }
   @Post('transactions/:id/classify')
   @HttpCode(202)
@@ -133,8 +162,8 @@ export class TransactionsController {
     };
   }
   @Get('classification/summary')
-  summary(@CurrentUser() userId: string) {
-    return this.transactions.summary(userId);
+  summary(@CurrentUser() userId: string, @Query('statementId') statementId?: string) {
+    return this.transactions.summary(userId, statementId);
   }
   @Get('classification/rules')
   rules(@CurrentUser() userId: string) {

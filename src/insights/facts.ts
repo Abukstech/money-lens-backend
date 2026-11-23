@@ -13,6 +13,9 @@ export const expenseCategories = categories.filter(
   (c) =>
     ![
       'income',
+      'gift_received',
+      'loan_received',
+      'repayment_received',
       'refund',
       'cash_withdrawal',
       'internal_transfer',
@@ -41,7 +44,14 @@ export function usable(row: FactRow) {
     categories.includes(row.category as Category) &&
     !['unknown', 'transfer_unknown'].includes(row.category) &&
     (row.direction === 'credit'
-      ? ['income', 'refund', 'internal_transfer'].includes(row.category)
+      ? [
+          'income',
+          'refund',
+          'internal_transfer',
+          'gift_received',
+          'loan_received',
+          'repayment_received',
+        ].includes(row.category)
       : row.direction === 'debit' && !['income', 'refund'].includes(row.category))
   );
 }
@@ -164,6 +174,9 @@ export function calculateFacts(
     unclassifiedDebits: new Decimal(0),
     unclassifiedCredits: new Decimal(0),
     otherCredits: new Decimal(0),
+    gifts: new Decimal(0),
+    loans: new Decimal(0),
+    repayments: new Decimal(0),
   };
   const gross: Partial<Record<Category, Decimal>> = {};
   const refunds: Partial<Record<Category, Decimal>> = {};
@@ -210,6 +223,10 @@ export function calculateFacts(
         }
       } else if (row.category === 'internal_transfer')
         totals.internal = totals.internal.plus(amount);
+      else if (row.category === 'gift_received') totals.gifts = totals.gifts.plus(amount);
+      else if (row.category === 'loan_received') totals.loans = totals.loans.plus(amount);
+      else if (row.category === 'repayment_received')
+        totals.repayments = totals.repayments.plus(amount);
       else totals.otherCredits = totals.otherCredits.plus(amount);
     } else if (expenseCategories.includes(row.category as Category)) {
       totals.grossExpenses = totals.grossExpenses.plus(amount);
@@ -309,6 +326,19 @@ export function calculateFacts(
     totals.unclassifiedCredits,
     'money',
     'Credits with unresolved purpose or validation issues',
+  );
+  put(
+    'gifts_received',
+    totals.gifts,
+    'money',
+    'Gifts and support received, separate from earnings',
+  );
+  put('loans_received', totals.loans, 'money', 'Borrowed money, not earnings');
+  put(
+    'repayments_received',
+    totals.repayments,
+    'money',
+    'Repayments and reimbursements, not netted against expenses',
   );
   put('other_credits', totals.otherCredits, 'money', 'Other credits not assumed to be income');
   if (target) put('savings_target', target, 'money', 'User-stated savings contribution target');

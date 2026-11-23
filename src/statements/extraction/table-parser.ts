@@ -1,12 +1,26 @@
+
+import { explicitRowIdentifiers } from './row-identifiers';
 import type { LayoutLine } from './detector';
-import { normalizeStatementDate, type DateOrder } from './date-normalizer';
+import {
+  normalizeStatementDate,
+  type DateOrder,
+} from './date-normalizer';
 
 type Column =
-  'reference' | 'date' | 'description' | 'debit' | 'credit' | 'amount' | 'indicator' | 'balance';
+  | 'reference'
+  | 'date'
+  | 'description'
+  | 'debit'
+  | 'credit'
+  | 'amount'
+  | 'indicator'
+  | 'balance';
 
 type Direction = 'debit' | 'credit';
 
 export interface ParsedTransaction {
+  accountIdentifier?: string | null;
+  recipientIdentifier?: string | null;
   date: string;
   description: string;
   amount: string;
@@ -32,43 +46,46 @@ export interface ContinuationEvidence {
 }
 
 const aliases: Record<Column, RegExp> = {
-  reference: /^(ref|reference|transaction id|transaction reference)$/,
-
-  date: /^(date|full date|transaction date|value date|posting date)$/,
-
-  description: /^(description|memo|narration|transaction narration|details|particulars)$/,
-
-  debit: /^(debit|withdrawal|withdrawals|dr)$/,
-
-  credit: /^(credit|deposit|deposits|cr)$/,
-
-  amount: /^(amount|transaction amount|value)$/,
-
-  indicator: /^(dr\/cr|cr\/dr|transaction type|debit\/credit indicator)$/,
-
-  balance: /^(balance|running balance|closing balance|available balance)$/,
+  reference:
+    /^(ref|reference|transaction id|transaction reference)$/,
+  date:
+    /^(date|full date|transaction date|value date|posting date)$/,
+  description:
+    /^(description|memo|narration|transaction narration|details|particulars)$/,
+  debit:
+    /^(debit|withdrawal|withdrawals|dr)$/,
+  credit:
+    /^(credit|deposit|deposits|cr)$/,
+  amount:
+    /^(amount|transaction amount|value)$/,
+  indicator:
+    /^(dr\/cr|cr\/dr|transaction type|debit\/credit indicator)$/,
+  balance:
+    /^(balance|running balance|closing balance|available balance)$/,
 };
 
 function normalizeHeader(text: string): string {
-  return (
-    text
-      .toLowerCase()
-      // Remove complete parenthesized units.
-      .replace(/\([^)]*\)/g, ' ')
-      .replace(/\b(?:ngn|naira)\b\s*$/i, '')
-      // Handle PDF text split across separate items,
-      // such as "Credit (" + "₦" + ")".
-      .replace(/[()₦]/g, ' ')
-      .replace(/\s+/g, ' ')
-      .trim()
-  );
+  return text
+    .toLowerCase()
+    .replace(/\([^)]*\)/g, ' ')
+    .replace(/\b(?:ngn|naira)\b\s*$/i, '')
+    .replace(/[()₦]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
 }
 
 const explicitCurrency =
   /\b(?:account\s+|statement\s+)?currency\s*[:=]?\s*(NGN|Nigerian Naira|Naira|₦|[A-Z]{3})\s*$/i;
-const nairaCurrency = /^(?:NGN|Nigerian Naira|Naira|₦)$/i;
-const nairaUnits = /\b(?:NGN|naira)\b|₦/i;
-const foreignUnits = /\b(?:USD|EUR|GBP|CAD|AUD|ZAR|GHS|KES)\b|[$€£]/i;
+
+const nairaCurrency =
+  /^(?:NGN|Nigerian Naira|Naira|₦)$/i;
+
+const nairaUnits =
+  /\b(?:NGN|naira)\b|₦/i;
+
+const foreignUnits =
+  /\b(?:USD|EUR|GBP|CAD|AUD|ZAR|GHS|KES)\b|[$€£]/i;
+
 const footerText =
   /^(?:total\b|sub-?total\b|opening balance\b|closing balance\b|end of statement\b|statement summary\b|account summary\b|page\s+\d+\b)/i;
 
@@ -80,7 +97,9 @@ export function detectHeader(line: LayoutLine) {
     const text = normalizeHeader(item.text);
 
     for (const column of Object.keys(aliases) as Column[]) {
-      if (!aliases[column].test(text)) continue;
+      if (!aliases[column].test(text)) {
+        continue;
+      }
 
       let x = item.x;
 
@@ -97,9 +116,12 @@ export function detectHeader(line: LayoutLine) {
     }
   }
 
-  const hasSeparateColumns = found.debit !== undefined || found.credit !== undefined;
+  const hasSeparateColumns =
+    found.debit !== undefined ||
+    found.credit !== undefined;
 
-  const hasSingleAmount = found.amount !== undefined;
+  const hasSingleAmount =
+    found.amount !== undefined;
 
   if (
     found.date === undefined ||
@@ -137,26 +159,42 @@ function extractCells(
       continue;
     }
 
-    // Use the text's horizontal center rather than
-    // only its starting position.
     const alignedColumn = headers.find((header, i) => {
-      if (Math.abs(item.x - header.x) <= 2) return true;
+      if (Math.abs(item.x - header.x) <= 2) {
+        return true;
+      }
+
       const next = headers[i + 1];
+
       return (
         header.column === 'description' &&
-        next &&
+        !!next &&
         item.x >= header.x &&
         item.x < (header.x + next.x) / 2 &&
         item.x + item.width <= next.x
       );
     });
+
     if (alignedColumn) {
       const column = alignedColumn.column;
-      cells[column] = [cells[column], item.text].filter(Boolean).join(' ').trim();
+
+      cells[column] = [
+        cells[column],
+        item.text,
+      ]
+        .filter(Boolean)
+        .join(' ')
+        .trim();
+
       continue;
     }
+
     const centerX = item.x + item.width / 2;
-    const isMoney = /^[+-]?(?:₦\s*)?\d[\d,]*(?:\.\d{1,2})?$/.test(item.text.trim());
+
+    const isMoney =
+      /^[+-]?(?:₦\s*)?\d[\d,]*(?:\.\d{1,2})?$/.test(
+        item.text.trim(),
+      );
 
     if (isMoney) {
       for (let i = 0; i < headers.length - 1; i++) {
@@ -164,10 +202,14 @@ function extractCells(
         const right = headers[i + 1];
 
         const isDebitCreditBoundary =
-          (left.column === 'debit' && right.column === 'credit') ||
-          (left.column === 'credit' && right.column === 'debit');
+          (left.column === 'debit' &&
+            right.column === 'credit') ||
+          (left.column === 'credit' &&
+            right.column === 'debit');
 
-        if (!isDebitCreditBoundary) continue;
+        if (!isDebitCreditBoundary) {
+          continue;
+        }
 
         const boundary = (left.x + right.x) / 2;
 
@@ -180,7 +222,8 @@ function extractCells(
     let index = 0;
 
     for (let i = 0; i < headers.length - 1; i++) {
-      const boundary = (headers[i].x + headers[i + 1].x) / 2;
+      const boundary =
+        (headers[i].x + headers[i + 1].x) / 2;
 
       if (centerX >= boundary) {
         index = i + 1;
@@ -189,18 +232,25 @@ function extractCells(
 
     const column = headers[index].column;
 
-    cells[column] = [cells[column], item.text].filter(Boolean).join(' ').trim();
+    cells[column] = [
+      cells[column],
+      item.text,
+    ]
+      .filter(Boolean)
+      .join(' ')
+      .trim();
   }
 
   return cells;
 }
 
 function parseMoney(value?: string): string | null {
-  if (!value?.trim()) return null;
+  if (!value?.trim()) {
+    return null;
+  }
 
   const cleaned = value
     .trim()
-    // Support NGN, N and ₦ currency prefixes.
     .replace(/^(?:NGN|₦|N)\s*(?=[+-]?\d)/i, '')
     .replace(/[,\s]/g, '')
     .trim();
@@ -212,28 +262,41 @@ function parseMoney(value?: string): string | null {
   return cleaned;
 }
 
-function parseDebitAmount(value?: string): string | null {
+function parseDebitAmount(
+  value?: string,
+): string | null {
   const parsed = parseMoney(value);
 
-  if (parsed === null) return null;
+  if (parsed === null) {
+    return null;
+  }
 
-  // Debit columns may already represent withdrawals
-  // using a negative sign.
-  const magnitude = parsed.startsWith('-') ? parsed.slice(1) : parsed;
+  // Negative debit values represent withdrawal magnitude.
+  const magnitude = parsed.startsWith('-')
+    ? parsed.slice(1)
+    : parsed;
 
-  if (Number(magnitude) <= 0) return null;
+  if (Number(magnitude) <= 0) {
+    return null;
+  }
 
   return magnitude;
 }
 
-function parseIndicator(value?: string): Direction | null {
+function parseIndicator(
+  value?: string,
+): Direction | null {
   const indicator = value?.trim().toUpperCase();
 
-  if (['DR', 'DEBIT', 'D'].includes(indicator ?? '')) {
+  if (
+    ['DR', 'DEBIT', 'D'].includes(indicator ?? '')
+  ) {
     return 'debit';
   }
 
-  if (['CR', 'CREDIT', 'C'].includes(indicator ?? '')) {
+  if (
+    ['CR', 'CREDIT', 'C'].includes(indicator ?? '')
+  ) {
     return 'credit';
   }
 
@@ -242,16 +305,22 @@ function parseIndicator(value?: string): Direction | null {
 
 export function parseTableLines(
   lines: LayoutLine[],
-  options: { dateOrder?: DateOrder; originalLines?: LayoutLine[] } = {},
+  options: {
+    dateOrder?: DateOrder;
+    originalLines?: LayoutLine[];
+  } = {},
 ) {
   const rows: ParsedTransaction[] = [];
   const issues: ParseIssue[] = [];
   const rowCounters = new Map<number, number>();
 
   let currentPage = -1;
+
   let headers: ReturnType<typeof detectHeader> = null;
+
   let currencyConfirmed = false;
   let detectedHeaders = 0;
+
   const continuations: ContinuationEvidence[] = [];
 
   let lastParsedRow: {
@@ -259,35 +328,70 @@ export function parseTableLines(
     lastY: number;
   } | null = null;
 
-  const sortedLines = [...lines].sort((a, b) => a.page - b.page || b.y - a.y);
-  const sourceLines = [...(options.originalLines ?? []), ...sortedLines];
+  const sortedLines = [...lines].sort(
+    (a, b) => a.page - b.page || b.y - a.y,
+  );
+
+  const sourceLines = [
+    ...(options.originalLines ?? []),
+    ...sortedLines,
+  ];
+
   const pagesWithHeaders = new Set<number>();
+
   for (const line of sortedLines) {
-    if (!pagesWithHeaders.has(line.page) && detectHeader(line)) {
+    if (
+      !pagesWithHeaders.has(line.page) &&
+      detectHeader(line)
+    ) {
       pagesWithHeaders.add(line.page);
     }
   }
-  const currencyLabels = sourceLines.flatMap(({ text }) => {
-    const currency = explicitCurrency.exec(text)?.[1];
-    return currency ? [currency] : [];
-  });
-  const sourceHeaders = sourceLines.filter(
-    (line) => (nairaUnits.test(line.text) || foreignUnits.test(line.text)) && detectHeader(line),
+
+  const currencyLabels = sourceLines.flatMap(
+    ({ text }) => {
+      const currency = explicitCurrency.exec(text)?.[1];
+      return currency ? [currency] : [];
+    },
   );
+
+  const sourceHeaders = sourceLines.filter(
+    (line) =>
+      (nairaUnits.test(line.text) ||
+        foreignUnits.test(line.text)) &&
+      detectHeader(line),
+  );
+
   const conflictingCurrency =
-    currencyLabels.some((currency) => !nairaCurrency.test(currency)) ||
-    sourceHeaders.some(({ text }) => foreignUnits.test(text));
+    currencyLabels.some(
+      (currency) => !nairaCurrency.test(currency),
+    ) ||
+    sourceHeaders.some(({ text }) =>
+      foreignUnits.test(text),
+    );
+
   const statementIsNaira =
     !conflictingCurrency &&
-    (currencyLabels.some((currency) => nairaCurrency.test(currency)) ||
-      sourceHeaders.some(({ text }) => nairaUnits.test(text)));
+    (
+      currencyLabels.some((currency) =>
+        nairaCurrency.test(currency),
+      ) ||
+      sourceHeaders.some(({ text }) =>
+        nairaUnits.test(text),
+      )
+    );
 
   for (const line of sortedLines) {
+    // Handle new page.
     if (line.page !== currentPage) {
-      if (line.page !== currentPage + 1 || pagesWithHeaders.has(line.page)) {
+      if (
+        line.page !== currentPage + 1 ||
+        pagesWithHeaders.has(line.page)
+      ) {
         headers = null;
         currencyConfirmed = false;
       }
+
       currentPage = line.page;
       lastParsedRow = null;
     }
@@ -296,35 +400,85 @@ export function parseTableLines(
 
     if (detected) {
       headers = detected;
-      currencyConfirmed = !conflictingCurrency && (statementIsNaira || nairaUnits.test(line.text));
+
+      currencyConfirmed =
+        !conflictingCurrency &&
+        (
+          statementIsNaira ||
+          nairaUnits.test(line.text)
+        );
+
       detectedHeaders++;
       lastParsedRow = null;
       continue;
     }
 
-    if (!headers) continue;
-    const descriptionIndex = headers.findIndex(({ column }) => column === 'description');
-    const descriptionHeader = headers[descriptionIndex];
-    const nextHeader = headers[descriptionIndex + 1];
-    const dateHeader = headers.find(({ column }) => column === 'date')!;
-    const meridiemItem = line.items.find(
-      (item) => Math.abs(item.x - dateHeader.x) <= 2 && /^(am|pm)$/i.test(item.text.trim()),
+    if (!headers) {
+      continue;
+    }
+
+    const descriptionIndex = headers.findIndex(
+      ({ column }) => column === 'description',
     );
-    const narrationItems = line.items.filter((item) => item !== meridiemItem);
+
+    const descriptionHeader =
+      headers[descriptionIndex];
+
+    const nextHeader =
+      headers[descriptionIndex + 1];
+
+    const dateHeader = headers.find(
+      ({ column }) => column === 'date',
+    )!;
+
+    // Detect AM/PM fragments separated from timestamps.
+    const meridiemItem = line.items.find(
+      (item) =>
+        Math.abs(item.x - dateHeader.x) <= 2 &&
+        /^(am|pm)$/i.test(item.text.trim()),
+    );
+
+    const narrationItems = line.items.filter(
+      (item) => item !== meridiemItem,
+    );
+
     const isAlignedNarration =
       narrationItems.length > 0 &&
-      Math.abs(narrationItems[0].x - descriptionHeader.x) <= 2 &&
-      narrationItems.every((item) => !nextHeader || item.x + item.width <= nextHeader.x);
-    const gap = lastParsedRow ? lastParsedRow.lastY - line.y : 0;
+      Math.abs(
+        narrationItems[0].x - descriptionHeader.x,
+      ) <= 2 &&
+      narrationItems.every(
+        (item) =>
+          !nextHeader ||
+          item.x + item.width <= nextHeader.x,
+      );
 
-    if (lastParsedRow && isAlignedNarration && gap > 0 && gap <= 18) {
+    const gap = lastParsedRow
+      ? lastParsedRow.lastY - line.y
+      : 0;
+
+    if (
+      lastParsedRow &&
+      isAlignedNarration &&
+      gap > 0 &&
+      gap <= 18
+    ) {
       const previous = rows[lastParsedRow.index];
+
       const text = narrationItems
         .map(({ text }) => text)
         .join(' ')
         .trim();
-      if (!/^REF(?:ERENCE)?\s*[:#]/i.test(text) && !footerText.test(text)) {
-        const description = `${previous.description} ${text}`.replace(/\s+/g, ' ').trim();
+
+      if (
+        !/^REF(?:ERENCE)?\s*[:#]/i.test(text) &&
+        !footerText.test(text)
+      ) {
+        const description =
+          `${previous.description} ${text}`
+            .replace(/\s+/g, ' ')
+            .trim();
+
         if (description.length <= 2000) {
           previous.description = description;
           lastParsedRow.lastY = line.y;
@@ -335,9 +489,13 @@ export function parseTableLines(
 
     let ambiguousAmountColumn = false;
 
-    const cells = extractCells(line, headers, () => {
-      ambiguousAmountColumn = true;
-    });
+    const cells = extractCells(
+      line,
+      headers,
+      () => {
+        ambiguousAmountColumn = true;
+      },
+    );
 
     if (ambiguousAmountColumn) {
       issues.push({
@@ -362,16 +520,29 @@ export function parseTableLines(
       cells.reference,
     ].some((value) => Boolean(value?.trim()));
 
-    if (/^(AM|PM)$/i.test(rawDate) && !hasOtherValues) {
-      const previous = lastParsedRow !== null ? rows[lastParsedRow.index] : null;
+    // Handle standalone AM/PM lines.
+    if (
+      /^(AM|PM)$/i.test(rawDate) &&
+      !hasOtherValues
+    ) {
+      const previous =
+        lastParsedRow !== null
+          ? rows[lastParsedRow.index]
+          : null;
 
-      const gap = lastParsedRow !== null ? lastParsedRow.lastY - line.y : -1;
+      const gap =
+        lastParsedRow !== null
+          ? lastParsedRow.lastY - line.y
+          : -1;
 
-      if (previous && previous.page === line.page && gap > 0 && gap <= 18) {
-        // The previous transaction's calendar date
-        // has already been parsed. Its AM/PM suffix
-        // wrapped onto this separate PDF line.
+      if (
+        previous &&
+        previous.page === line.page &&
+        gap > 0 &&
+        gap <= 18
+      ) {
         rawDate = '';
+
         if (!descrip) {
           lastParsedRow!.lastY = line.y;
           continue;
@@ -382,49 +553,77 @@ export function parseTableLines(
           lineY: line.y,
           code: 'ORPHAN_DATE_MERIDIEM',
         });
+
         lastParsedRow = null;
         continue;
       }
     }
 
-    const looksLikeFooter = footerText.test(descrip);
+    const looksLikeFooter =
+      footerText.test(descrip);
 
-    if (!rawDate && descrip && !hasOtherValues && !looksLikeFooter && lastParsedRow) {
-      const gap = lastParsedRow.lastY - line.y;
+    // Detect multiline descriptions or references.
+    if (
+      !rawDate &&
+      descrip &&
+      !hasOtherValues &&
+      !looksLikeFooter &&
+      lastParsedRow
+    ) {
+      const gap =
+        lastParsedRow.lastY - line.y;
 
-      // Only attach nearby text on the same PDF page.
       if (gap > 0 && gap <= 18) {
-        const previous = rows[lastParsedRow.index];
+        const previous =
+          rows[lastParsedRow.index];
 
         if (previous.page === line.page) {
-          const referenceMatch = /^REF(?:ERENCE)?\s*[:#]\s*(.+)$/i.exec(descrip);
+          const referenceMatch =
+            /^REF(?:ERENCE)?\s*[:#]\s*(.+)$/i.exec(
+              descrip,
+            );
 
-          const kind = referenceMatch ? 'reference' : 'description';
+          const kind = referenceMatch
+            ? 'reference'
+            : 'description';
 
           if (referenceMatch) {
-            const reference = referenceMatch[1].trim();
+            const reference =
+              referenceMatch[1].trim();
 
-            // Do not silently overwrite an existing reference.
-            if (previous.reference || reference.length > 200) {
+            if (
+              previous.reference ||
+              reference.length > 200
+            ) {
               issues.push({
                 page: line.page,
                 lineY: line.y,
-                code: 'AMBIGUOUS_CONTINUATION_REFERENCE',
+                code:
+                  'AMBIGUOUS_CONTINUATION_REFERENCE',
               });
+
               lastParsedRow = null;
               continue;
             }
 
             previous.reference = reference;
           } else {
-            const merged = [previous.description, descrip].join(' ').replace(/\s+/g, ' ').trim();
+            const merged = [
+              previous.description,
+              descrip,
+            ]
+              .join(' ')
+              .replace(/\s+/g, ' ')
+              .trim();
 
             if (merged.length > 2000) {
               issues.push({
                 page: line.page,
                 lineY: line.y,
-                code: 'CONTINUATION_DESCRIPTION_TOO_LONG',
+                code:
+                  'CONTINUATION_DESCRIPTION_TOO_LONG',
               });
+
               lastParsedRow = null;
               continue;
             }
@@ -445,81 +644,144 @@ export function parseTableLines(
       }
     }
 
-    const hasFinancialCell = [cells.debit, cells.credit, cells.amount, cells.balance].some(
+    const hasFinancialCell = [
+      cells.debit,
+      cells.credit,
+      cells.amount,
+      cells.balance,
+    ].some(
       (cell) => parseMoney(cell) !== null,
     );
+
     if (
       !/\d/.test(rawDate) &&
       !hasFinancialCell &&
       !meridiemItem &&
       nextHeader &&
-      line.items.some((item) => item.x < nextHeader.x && item.x + item.width > nextHeader.x)
+      line.items.some(
+        (item) =>
+          item.x < nextHeader.x &&
+          item.x + item.width > nextHeader.x,
+      )
     ) {
       lastParsedRow = null;
       continue;
     }
 
-    const normalizedDate = normalizeStatementDate(rawDate, options.dateOrder);
+    // Normalize the statement date.
+    const normalizedDate =
+      normalizeStatementDate(
+        rawDate,
+        options.dateOrder,
+      );
 
-    const description = cells.description?.trim() ?? '';
-    const balance = parseMoney(cells.balance);
+    const description =
+      cells.description?.trim() ?? '';
+
+    const balance =
+      parseMoney(cells.balance);
 
     let problem: string | null = null;
     let amount: string | null = null;
     let direction: Direction | null = null;
 
     if (!normalizedDate) {
-      problem = 'UNRECOGNIZED_OR_AMBIGUOUS_DATE';
+      problem =
+        'UNRECOGNIZED_OR_AMBIGUOUS_DATE';
     } else if (!description) {
       problem = 'MISSING_DESCRIPTION';
     } else if (!currencyConfirmed) {
       problem = 'UNKNOWN_CURRENCY';
-    } else if (cells.balance?.trim() && balance === null) {
+    } else if (
+      cells.balance?.trim() &&
+      balance === null
+    ) {
       problem = 'INVALID_BALANCE';
     }
 
-    const hasSeparateColumns = headers.some((h) => h.column === 'debit' || h.column === 'credit');
+    const hasSeparateColumns = headers.some(
+      (h) =>
+        h.column === 'debit' ||
+        h.column === 'credit',
+    );
 
+    // Parse separate debit and credit columns.
     if (!problem && hasSeparateColumns) {
-      const debitPresent = Boolean(cells.debit?.trim());
-      const creditPresent = Boolean(cells.credit?.trim());
+      const debitPresent =
+        Boolean(cells.debit?.trim());
 
-      const debit = parseDebitAmount(cells.debit);
-      const credit = parseMoney(cells.credit);
+      const creditPresent =
+        Boolean(cells.credit?.trim());
+
+      const debit =
+        parseDebitAmount(cells.debit);
+
+      const credit =
+        parseMoney(cells.credit);
 
       if (debitPresent === creditPresent) {
-        problem = 'AMBIGUOUS_TRANSACTION_DIRECTION';
+        problem =
+          'AMBIGUOUS_TRANSACTION_DIRECTION';
       } else {
-        const selected = debitPresent ? debit : credit;
+        const selected = debitPresent
+          ? debit
+          : credit;
 
-        if (selected === null || Number(selected) <= 0) {
+        if (
+          selected === null ||
+          Number(selected) <= 0
+        ) {
           problem = 'INVALID_AMOUNT';
         } else {
           amount = selected;
-          direction = debitPresent ? 'debit' : 'credit';
+          direction = debitPresent
+            ? 'debit'
+            : 'credit';
         }
       }
     }
 
+    // Parse single signed amount column.
     if (!problem && !hasSeparateColumns) {
-      const rawAmount = cells.amount?.trim() ?? '';
-      const signed = parseMoney(rawAmount);
-      const marker = parseIndicator(cells.indicator);
+      const rawAmount =
+        cells.amount?.trim() ?? '';
 
-      if (!signed || Number(signed) === 0) {
+      const signed =
+        parseMoney(rawAmount);
+
+      const marker =
+        parseIndicator(cells.indicator);
+
+      if (
+        !signed ||
+        Number(signed) === 0
+      ) {
         problem = 'INVALID_AMOUNT';
       } else {
-        const negative = signed.startsWith('-');
-        const positive = signed.startsWith('+');
-        const hasIndicator = Boolean(cells.indicator?.trim());
+        const negative =
+          signed.startsWith('-');
 
-        if (hasIndicator && !marker) {
-          problem = 'UNKNOWN_DIRECTION_INDICATOR';
+        const positive =
+          signed.startsWith('+');
+
+        const hasIndicator =
+          Boolean(cells.indicator?.trim());
+
+        if (
+          hasIndicator &&
+          !marker
+        ) {
+          problem =
+            'UNKNOWN_DIRECTION_INDICATOR';
         } else if (
           marker &&
-          ((negative && marker === 'credit') || (positive && marker === 'debit'))
+          (
+            (negative && marker === 'credit') ||
+            (positive && marker === 'debit')
+          )
         ) {
-          problem = 'CONFLICTING_DIRECTION_SIGN';
+          problem =
+            'CONFLICTING_DIRECTION_SIGN';
         } else if (marker) {
           direction = marker;
         } else if (negative) {
@@ -527,25 +789,109 @@ export function parseTableLines(
         } else if (positive) {
           direction = 'credit';
         } else {
-          problem = 'AMBIGUOUS_TRANSACTION_DIRECTION';
+          problem =
+            'AMBIGUOUS_TRANSACTION_DIRECTION';
         }
 
-        amount = signed.replace(/^[+-]/, '');
+        amount =
+          signed.replace(/^[+-]/, '');
       }
     }
 
-    if (problem || !normalizedDate || !amount || !direction) {
+    // =========================================
+    // NEW: PRIVACY-SAFE DATE FAILURE DIAGNOSTIC
+    // =========================================
+    if (
+      problem ||
+      !normalizedDate ||
+      !amount ||
+      !direction
+    ) {
+      if (
+        process.env.EXTRACT_DATE_DEBUG === '1' &&
+        problem ===
+          'UNRECOGNIZED_OR_AMBIGUOUS_DATE' &&
+        [5, 13].includes(line.page)
+      ) {
+        const mask = (
+          value?: string,
+        ): string =>
+          (value ?? '')
+            .replace(/\d/g, '#')
+            .replace(/[A-Za-z]/g, 'X')
+            .slice(0, 100);
+
+        console.warn(
+          '[DATE PARSING FAILURE]',
+          {
+            page: line.page + 1,
+            y: Math.round(line.y),
+
+            datePattern: mask(rawDate),
+
+            configuredDateOrder:
+              options.dateOrder ??
+              'unspecified',
+
+            dateValidDMY:
+              normalizeStatementDate(
+                rawDate,
+                'DMY',
+              ) !== null,
+
+            dateValidMDY:
+              normalizeStatementDate(
+                rawDate,
+                'MDY',
+              ) !== null,
+
+            standaloneMeridiem:
+              /^(AM|PM)$/i.test(rawDate),
+
+            hasDescription:
+              Boolean(
+                cells.description?.trim(),
+              ),
+
+            hasDebit:
+              Boolean(cells.debit?.trim()),
+
+            hasCredit:
+              Boolean(cells.credit?.trim()),
+
+            hasBalance:
+              Boolean(cells.balance?.trim()),
+
+            hasReference:
+              Boolean(cells.reference?.trim()),
+
+            itemCount:
+              line.items.length,
+          },
+        );
+      }
+
+      // Preserve existing validation failure.
       issues.push({
         page: line.page,
         lineY: line.y,
-        code: problem ?? 'INVALID_TRANSACTION',
+        code:
+          problem ??
+          'INVALID_TRANSACTION',
       });
+
       lastParsedRow = null;
       continue;
     }
 
-    const rowIndex = rowCounters.get(line.page) ?? 0;
-    rowCounters.set(line.page, rowIndex + 1);
+    // Build a validated transaction row.
+    const rowIndex =
+      rowCounters.get(line.page) ?? 0;
+
+    rowCounters.set(
+      line.page,
+      rowIndex + 1,
+    );
 
     rows.push({
       date: normalizedDate,
@@ -554,10 +900,12 @@ export function parseTableLines(
       direction,
       currency: 'NGN',
       balance,
-      reference: cells.reference?.trim() || null,
+      reference:
+        cells.reference?.trim() || null,
       page: line.page,
       row: rowIndex,
     });
+
     lastParsedRow = {
       index: rows.length - 1,
       lastY: line.y,
@@ -573,7 +921,12 @@ export function parseTableLines(
   }
 
   return {
-    rows,
+    rows: rows.map((row) => ({
+      ...row,
+      ...explicitRowIdentifiers(
+        row.description,
+      ),
+    })),
     issues,
     continuations,
   };

@@ -83,10 +83,12 @@ model Transaction {
   inputTokens         Int                      @default(0)
   outputTokens        Int                      @default(0)
   latencyMs           Int?
-  ontologyVersion     String                   @default("1.0.0")
-  policyVersion       String                   @default("1.0.0-conservative")
+  ontologyVersion     String                   @default("1.1.0")
+  policyVersion       String                   @default("2.0.0-evidence-first")
   datasetChecksum     String?
   revision            Int                      @default(0)
+  reasonCode          String?
+  evidence            Json?
   classifiedAt        DateTime?
   createdAt           DateTime                 @default(now())
   updatedAt           DateTime                 @updatedAt
@@ -122,6 +124,7 @@ model ClassificationRevision {
   inputTokens         Int         @default(0)
   outputTokens        Int         @default(0)
   reasonCode          String
+  evidence            Json?
   createdAt           DateTime    @default(now())
 
   @@unique([transactionId, revision])
@@ -293,6 +296,8 @@ model StatementExtractionRow {
   reference           String?
   accountIdentifier   String?
   recipientIdentifier String?
+  accountHash         String?
+  recipientHash       String?
 
   page                Int
   row                 Int

@@ -24,7 +24,7 @@ Run `npm run dev` for source watching, or `npm start` after building. Both comma
 
 Both statement upload routes use Mistral as the primary extractor when `MISTRAL_OCR_ENABLED=true`. Supply a Mistral API key and set `MISTRAL_OCR_REQUESTS_PER_SECOND` and `MISTRAL_OCR_PAGES_PER_MINUTE` at or below the account limits. The local engine checks the original PDF and can provide a verified result if OCR fails or its result cannot be verified. With OCR disabled, the local extractor handles all statements. The limiter is shared within one API process. Production also requires the signed [provider approval](docs/privacy-operations.md#provider-approval-gate).
 
-Set `PADDLE_OCR_URL` and `PADDLE_OCR_TOKEN` to use the self-hosted [CPU OCR service](services/ocr/README.md) as the primary extractor on both routes. It returns text and bounding boxes for the existing table parser. Run it on Docker Desktop or a private Railway service.
+Set `PADDLE_OCR_URL` and `PADDLE_OCR_TOKEN` to use the self-hosted [CPU OCR service](services/ocr/README.md) as the primary extractor on both routes. The upgraded service returns structured tables plus legacy text boxes. The backend maps table cells into transactions without page-coordinate parsing and accepts reconciled scanned statements with complete OCR coverage. Older service responses keep the existing parser path. Run it on Docker Desktop or a private Railway service.
 
 Use `POST /api/moneylens/statements/extraction-drafts` to review recovered rows when source coverage cannot be verified. Direct import requires source coverage and balance reconciliation. A `503 OCR_RATE_LIMITED` response includes `Retry-After` in seconds and `X-RateLimit-Source` (`local` or `mistral`). Reupload after that interval. If a single statement consistently exceeds the local budget within one upload deadline, use a shorter statement or adjust the local budget within your account's limits. Legacy partial imports with `INVALID_ROWS_REUPLOAD_REQUIRED` can still use `?retry=true`, preserving existing rows and user corrections.
 
@@ -71,6 +71,8 @@ JSON money values are decimal strings, with at most two fraction digits for NGN.
 | `GET /api/moneylens/classification/rules` | Active recipient rules |
 | `PATCH`, `DELETE /api/moneylens/classification/rules/:id` | Version-checked rule changes; audit history retained |
 
+Grouped optional review, atomic batch confirmation and release instructions: [classification rollout](docs/classification-rollout.md).
+
 Correction example: `{"revision":1,"category":"housing"}`. `unknown` and `transfer_unknown` cannot complete user classification. Deferral simply leaves a row pending. Known purpose outside the taxonomy may use `other`.
 
 To remember a rule, confirmation includes `rememberForFuture:true` and `conditions:{"direction":"debit","currency":"NGN","minAmount":"40000","maxAmount":"50000","narrationTokens":["RENT"]}`. The transaction needs a stable recipient identifier in `bankCode:10DigitAccountNumber` format, supplied transiently by ingestion and stored only as a user-scoped keyed hash. Display names cannot create rules. Rule changes use `version`; deletion body is `{"version":1}`. Amounts, direction, currency, recipient and all narration tokens must match. Conflicting rules require tagging.
@@ -85,11 +87,11 @@ Email verification, password reset, first-name personalization, Resend configura
 
 ## Classification behavior
 
-Order: exact user confirmation → matching conditional user rule → deterministic evidence → Jev → unknown. Model failures never fabricate categories. Unknown recipients and processor-only payments stay unresolved even with high model confidence. Transfers sent to Jev omit private counterparty names and retain only recognized purpose/channel terms.
+Order: preserve user confirmation → extraction/reversal checks → matching conditional user rule → explicit deterministic purpose evidence → Jev → unknown. Model failures never fabricate categories. Unknown recipients and processor-only payments without independent purpose evidence stay unresolved even with high model confidence. Transfers sent to Jev omit private counterparty names and retain only recognized purpose/channel terms.
 
 The supplied 248-vendor seed is preserved at `src/merchants/data/nigeria-merchants.json`. Its source labels are claims, not independent verification. The runtime validates its schema and aliases and records a canonical JSON SHA-256 checksum. All seed-only category hints require confirmation; `official_verified` does not bypass this restriction. Conflicting merchant matches remain unresolved. Short aliases still use full token boundaries. Fuel/delivery hints have no universal category mapping.
 
-Explicit cash withdrawals and bank fee narrations can classify deterministically; deterministic confidence `1` denotes a rule result, not an empirically calibrated probability. Refunds require a unique same-user original debit with matching reference, amount and compatible account/time context for automatic linkage; otherwise review is required. Credits are not automatically income. Internal transfer purpose requires explicit user confirmation or a scoped confirmed rule; a narration saying "own account" is insufficient.
+Explicit telecom top-ups, utility bills, identified subscriptions, cash withdrawals and bank fee/levy narrations can classify deterministically; deterministic confidence `1` denotes a rule result, not an empirically calibrated probability. Refunds require a unique same-user original debit with matching reference, amount and compatible account/time context for automatic linkage; otherwise review is required. Credits are not automatically income. Internal transfer purpose requires explicit user confirmation or a scoped confirmed rule; a narration saying "own account" is insufficient.
 
 Semantic suggestions use thresholds 0.75 and 0.90. Automatic semantic acceptance is **off by default**. Enabling it also requires a calibration evidence record bound to the configured model and policy. See [provider contracts](docs/provider-contracts.md). User-confirmed rows cannot be overwritten by stale workers.
 

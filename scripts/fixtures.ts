@@ -25,6 +25,7 @@ export const fixtures = base.flatMap(([description, expectedCategory, expectedSt
     expectedStatus,
     expectedMerchantId: merchantIds[i] ?? null,
     origin: 'authored_synthetic' as const,
+    amount: '45000.00',
     direction: (expectedCategory === 'refund' ? 'credit' : 'debit') as 'debit' | 'credit',
   })),
 );

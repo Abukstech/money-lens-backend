@@ -1,6 +1,6 @@
 # Human-reviewed evaluation data
 
-No human-reviewed Nigerian bank transactions have been provided. Do not claim the authored synthetic fixtures are a calibrated evaluation set.
+The supplied screenshot cases have regression coverage, but no representative held-out human-reviewed Nigerian transaction dataset has been provided. Do not claim the authored synthetic fixtures are a calibrated evaluation set.
 
 Use sanitized, permissioned cases in a separate JSON file:
 

@@ -42,13 +42,10 @@ export class StatementExtractor {
         throw new BadRequestException('PDF_ONLY_SUPPORTED');
       }
 
-      const { totalPages, extractLocal, extractRecognized, evaluate } = await prepareStatement(
-        pdf,
-        scopedSignal,
-        {
+      const { totalPages, extractLocal, extractRecognized, extractStructured, evaluate } =
+        await prepareStatement(pdf, scopedSignal, {
           dateOrder,
-        },
-      );
+        });
       const checkDeadline = () => {
         scopedSignal.throwIfAborted();
         if (Date.now() >= deadlineAt) throw new RequestTimeoutException('EXTRACTION_CANCELLED');
@@ -66,7 +63,18 @@ export class StatementExtractor {
         if (provider === 'paddleocr') {
           const pages = await this.paddle.read(pdf, totalPages, scopedSignal);
           checkDeadline();
-          ocr = extractRecognized(pages);
+          ocr = pages.every((page) => page.tables !== undefined)
+            ? extractStructured(pages)
+            : extractRecognized(pages);
+          if (pages.every((page) => page.tables !== undefined))
+            this.logger.log({
+              provider,
+              code: 'STRUCTURED_TABLE_EXTRACTION',
+              pages: totalPages,
+              tables: pages.reduce((count, page) => count + (page.tables?.length ?? 0), 0),
+              transactionCount: ocr.rows.length,
+              reasons: ocr.review.reasons,
+            });
         } else {
           const { rows, rejectedRows } = await this.ocr.extract(
             pdf,
@@ -77,13 +85,11 @@ export class StatementExtractor {
           );
           checkDeadline();
           ocr = evaluate(
-            rows.map(
-              ({ accountIdentifier: _account, recipientIdentifier: _recipient, ...row }) => ({
-                ...row,
-                balance: row.balance ?? null,
-                reference: row.reference ?? null,
-              }),
-            ),
+            rows.map((row) => ({
+              ...row,
+              balance: row.balance ?? null,
+              reference: row.reference ?? null,
+            })),
             rejectedRows,
           );
         }

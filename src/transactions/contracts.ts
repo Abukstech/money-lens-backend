@@ -76,3 +76,31 @@ export const ruleUpdate = z
   })
   .strict();
 export type TransactionInput = z.infer<typeof transactionInput>;
+
+export const bulkFeedbackInput = z
+  .object({
+    items: z
+      .array(
+        z
+          .object({
+            transactionId: z.string().min(1).max(100),
+            revision: z.number().int().min(0),
+          })
+          .strict(),
+      )
+      .min(1)
+      .max(100),
+    category: confirmedCategory,
+    rememberForFuture: z.boolean().default(false),
+    conditions: ruleConditions.optional(),
+  })
+  .strict()
+  .refine((v) => new Set(v.items.map((i) => i.transactionId)).size === v.items.length)
+  .refine((v) => !v.rememberForFuture || !!v.conditions);
+
+export const reviewQuery = z
+  .object({
+    statementId: z.string().min(1).max(100),
+    cursor: z.string().min(1).max(100).optional(),
+  })
+  .strict();

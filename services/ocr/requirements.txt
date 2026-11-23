@@ -3,3 +3,8 @@ onnxruntime==1.23.2
 pypdfium2==5.0.0
 fastapi==0.128.0
 uvicorn==0.40.0
+rapid-table==3.0.2
+rapid-layout==1.2.1
+numpy==2.2.6
+opencv-python==4.12.0.88
+opencv-python-headless==4.12.0.88

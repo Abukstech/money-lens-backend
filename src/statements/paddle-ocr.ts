@@ -5,6 +5,16 @@ import { ProviderError, readJson } from '../common/provider-http';
 
 const pageSchema = z.object({
   index: z.number().int().nonnegative(),
+  blank: z.boolean().optional(),
+  tableCoverageComplete: z.boolean().optional(),
+  tables: z
+    .array(
+      z.object({
+        rows: z.array(z.array(z.string().max(4000)).max(40)).max(2000),
+      }),
+    )
+    .max(100)
+    .optional(),
   items: z
     .array(
       z.object({
@@ -17,7 +27,10 @@ const pageSchema = z.object({
     )
     .max(10000),
 });
-const responseSchema = z.object({ pages: z.array(pageSchema).max(40) });
+const responseSchema = z.object({
+  contractVersion: z.literal(2).optional(),
+  pages: z.array(pageSchema).max(40),
+});
 const errorResponseSchema = z.object({
   detail: z.enum([
     'INVALID_PDF',
@@ -81,6 +94,11 @@ export class PaddleOcrClient {
     const parsed = responseSchema.safeParse(await readJson(response, signal));
     if (!parsed.success) throw new ProviderError('INVALID_PADDLE_OCR_RESPONSE');
 
+    if (
+      parsed.data.contractVersion === 2 &&
+      parsed.data.pages.some((page) => !page.tables || page.tableCoverageComplete === undefined)
+    )
+      throw new ProviderError('INVALID_PADDLE_TABLE_RESPONSE');
     const pages = parsed.data.pages.sort((a, b) => a.index - b.index);
     if (pages.length !== totalPages || pages.some((page, index) => page.index !== index)) {
       throw new ProviderError('INVALID_PADDLE_OCR_PAGE_COVERAGE');

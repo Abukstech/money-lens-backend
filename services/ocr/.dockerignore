@@ -4,3 +4,7 @@
 !app.py
 !models/
 !models/**
+!table_output.py
+!railway.json
+!tests/
+!tests/**

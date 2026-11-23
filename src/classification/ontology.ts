@@ -26,6 +26,9 @@ export const categories = [
   'cash_withdrawal',
   'internal_transfer',
   'income',
+  'gift_received',
+  'loan_received',
+  'repayment_received',
   'refund',
   'transfer_unknown',
   'other',
@@ -37,8 +40,8 @@ export const confirmedCategory = categorySchema.refine(
   (c) => c !== 'unknown' && c !== 'transfer_unknown',
   'Choose a known purpose',
 );
-export const ONTOLOGY_VERSION = '1.0.0';
-export const POLICY_VERSION = '1.0.0-conservative';
+export const ONTOLOGY_VERSION = '1.1.0';
+export const POLICY_VERSION = '2.0.0-evidence-first';
 export const definitions: Record<Category, string> = {
   groceries: 'Likely supermarket or food market purchases; exact items unknown',
   dining: 'Restaurants and prepared meals',
@@ -66,6 +69,10 @@ export const definitions: Record<Category, string> = {
   cash_withdrawal: 'Cash movement; final consumption unknown',
   internal_transfer: 'Transfer between verified accounts owned by the same user',
   income: 'Identifiable earned or other income; a credit alone is insufficient',
+  gift_received: 'Incoming gifts or family support confirmed by the user; not earned income',
+  loan_received: 'Borrowed money received; not earned income',
+  repayment_received:
+    'Money repaid or reimbursed to the user; not automatically netted against expenses',
   refund: 'Refund or reversal; reconcile original transaction when possible',
   transfer_unknown: 'Transfer with unidentified economic purpose',
   other: 'Known purpose outside this taxonomy; never a substitute for unknown',

@@ -8,6 +8,8 @@ if (process.env.JEV_BENCH_LIVE !== '1') {
   process.env.JEV_API_KEY = '';
 }
 process.env.MISTRAL_API_KEY = 'synthetic-test-key';
+process.env.PADDLE_OCR_URL = '';
+delete process.env.PADDLE_OCR_TOKEN;
 
 process.env.CORS_ORIGINS = 'http://localhost:8089';
 

@@ -10,7 +10,7 @@ import { Transactions } from '../src/transactions/service';
 import { money, date, feedbackInput, transactionInput } from '../src/transactions/contracts';
 import { fixtures } from '../scripts/fixtures';
 import { transaction } from './helpers';
-import { afterEach,  } from 'vitest';
+import { afterEach } from 'vitest';
 import { categorySchema } from '../src/classification/ontology';
 const config = new Config();
 const registry = new Registry();
@@ -90,6 +90,7 @@ it('keeps analysis incomplete when only unknown credits remain', async () => {
       ],
     },
     statement: { count: async () => 0 },
+    classificationRevision: { count: async () => 0 },
   } as unknown as Db;
   const summary = await new Transactions(mockDb, privacy, registry).summary('synthetic-user');
   expect(summary.analysisComplete).toBe(false);
@@ -118,9 +119,7 @@ describe('200 authored Nigerian narration fixtures', () => {
       expect(f.description.trim().length).toBeGreaterThan(0);
       expect(['debit', 'credit']).toContain(f.direction);
 
-      expect(
-        categorySchema.safeParse(f.expectedCategory).success,
-      ).toBe(true);
+      expect(categorySchema.safeParse(f.expectedCategory).success).toBe(true);
 
       // The registry supplies merchant evidence, not final categories.
       const matches = registry.match(f.description);
@@ -132,7 +131,7 @@ describe('200 authored Nigerian narration fixtures', () => {
       // Context sent to JEV must not expose account numbers.
       const safe = semanticNarration(
         f.description,
-        matches.merchants.map(m => m.name),
+        matches.merchants.map((m) => m.name),
       );
 
       expect(safe.length).toBeGreaterThan(0);
@@ -183,33 +182,31 @@ describe('evidence and confidence gates', () => {
 
   it('routes ATM reversals to reconciliation before acceptance', async () => {
     vi.spyOn(jev, 'available').mockReturnValue(true);
-  
-    vi.spyOn(jev, 'classify').mockImplementation(
-      async (_state, onInvoke) => {
-        onInvoke();
-  
-        return {
-          category: 'refund',
-          confidence: 0.98,
-          choiceProbability: 0.98,
-          model: 'synthetic',
-          inputTokens: 5,
-          outputTokens: 1,
-        };
-      },
-    );
-  
+
+    vi.spyOn(jev, 'classify').mockImplementation(async (_state, onInvoke) => {
+      onInvoke();
+
+      return {
+        category: 'refund',
+        confidence: 0.98,
+        choiceProbability: 0.98,
+        model: 'synthetic',
+        inputTokens: 5,
+        outputTokens: 1,
+      };
+    });
+
     const d = await classifier.decide(
       transaction('ATM CASH WITHDRAWAL REVERSAL', {
         direction: 'credit',
       }),
     );
-  
+
     expect(d.suggestedCategory).toBe('refund');
     expect(d.status).toBe('requires_user_tagging');
-    expect(d.jevInvoked).toBe(true);
+    expect(d.jevInvoked).toBe(false);
   });
-  
+
   it('handles confidence boundaries conservatively', () => {
     const base = policy.base('PAYMENT', 'debit');
     expect(policy.applySuggestion(base, 'housing', 0.74, true).suggestedCategory).toBeNull();

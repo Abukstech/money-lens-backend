@@ -8,6 +8,7 @@ import { Db } from '../src/common/db';
 import { Classifier } from '../src/classification/classifier';
 import { ClassificationJobs } from '../src/classification/jobs';
 import { Config } from '../src/common/config';
+import { Privacy } from '../src/common/privacy';
 import { Statements } from '../src/statements/service';
 import { ExtractionDraftService } from '../src/statements/extraction/extraction-draft.service';
 import { EmailVerification } from '../src/auth/email';
@@ -46,6 +47,7 @@ integration('PostgreSQL API and privacy integration', () => {
 
   async function statementPdf(layout: 'local' | 'unfamiliar' | 'scan', title = 'Statement') {
     const pdf = await PDFDocument.create();
+    pdf.setTitle(title);
     const page = pdf.addPage([810, 600]);
     const font = await pdf.embedFont(StandardFonts.Helvetica);
     if (layout === 'scan') {
@@ -328,6 +330,340 @@ integration('PostgreSQL API and privacy integration', () => {
       .send({ version: 2 })
       .expect(200);
     expect(await db.ruleRevision.count({ where: { ruleId: rule.id } })).toBe(3);
+    const afterDeletion = await submit('NIP RENT PAYMENT', {
+      recipientIdentifier: '999:0000000000',
+    });
+    await app.get(Classifier).run(afterDeletion.id, 0);
+    expect(
+      (await db.transaction.findUniqueOrThrow({ where: { id: afterDeletion.id } })).source,
+    ).not.toBe('user_rule');
+  });
+  it('runs durable identifier-only jobs through pg-boss', async () => {
+    const { id } = await submit('ATM CASH WITHDRAWAL');
+    const config = app.get(Config);
+    config.values.JOBS_ENABLED = true;
+    const jobs = new ClassificationJobs(db, config, app.get(Classifier));
+    try {
+      await jobs.onModuleInit();
+      await vi.waitFor(
+        async () =>
+          expect((await db.transaction.findUniqueOrThrow({ where: { id } })).category).toBe(
+            'cash_withdrawal',
+          ),
+        { timeout: 15000, interval: 200 },
+      );
+      const payloads = await db.$queryRaw<
+        { data: unknown }[]
+      >`SELECT data FROM pgboss.job WHERE name = 'classify-transaction'`;
+      for (const { data } of payloads)
+        expect(Object.keys(data as object).sort()).toEqual(['taskId', 'transactionId']);
+    } finally {
+      await jobs.onModuleDestroy();
+      config.values.JOBS_ENABLED = false;
+    }
+  });
+  it('classifies screenshot debits, confirms incoming earnings and exposes versioned evidence', async () => {
+    for (const [description, category] of [
+      ['Bill payment for Airtel recharge [REDACTED]', 'telecommunications'],
+      ['Stamp Duty', 'financial_fees'],
+    ]) {
+      const { id } = await submit(description);
+      await app.get(Classifier).run(id, 0);
+      const response = await request(app.getHttpServer())
+        .get(`/api/moneylens/transactions/${id}`)
+        .auth(token, { type: 'bearer' })
+        .expect(200);
+      expect(response.body.category).toBe(category);
+      expect(response.body.classification.reasonCode).toBe('EXPLICIT_PURPOSE');
+      const history = await db.classificationRevision.findFirstOrThrow({
+        where: { transactionId: id },
+      });
+      expect(history.evidence).toHaveProperty('patternVersion');
+    }
+    const { id } = await submit('Credit from EXAMPLE SERVICES /AT68_TRF2MPT[REDACTED]', {
+      direction: 'credit',
+      amount: '15000',
+    });
+    await app.get(Classifier).run(id, 0);
+    expect((await db.transaction.findUniqueOrThrow({ where: { id } })).category).toBe(
+      'transfer_unknown',
+    );
+    await request(app.getHttpServer())
+      .patch(`/api/moneylens/transactions/${id}/classification`)
+      .auth(token, { type: 'bearer' })
+      .send({ revision: 1, category: 'income' })
+      .expect(200);
+  });
+  it('confirms batches atomically and rejects stale, foreign, invalid-direction and duplicate rows', async () => {
+    const one = await submit('GROUP ONE');
+    const two = await submit('GROUP TWO');
+    const send = (
+      items: { transactionId: string; revision: number }[],
+      category = 'housing',
+      auth = token,
+    ) =>
+      request(app.getHttpServer())
+        .post('/api/moneylens/transactions/classification/bulk')
+        .auth(auth, { type: 'bearer' })
+        .send({ items, category });
+    await send([
+      { transactionId: one.id, revision: 0 },
+      { transactionId: two.id, revision: 9 },
+    ]).expect(409);
+    expect((await db.transaction.findUniqueOrThrow({ where: { id: one.id } })).revision).toBe(0);
+    await send([{ transactionId: one.id, revision: 0 }], 'housing', secondToken).expect(404);
+    await send([{ transactionId: one.id, revision: 0 }], 'loan_received').expect(400);
+    await send([
+      { transactionId: one.id, revision: 0 },
+      { transactionId: one.id, revision: 0 },
+    ]).expect(400);
+    await send([
+      { transactionId: one.id, revision: 0 },
+      { transactionId: two.id, revision: 0 },
+    ]).expect(201);
+    expect(
+      await db.classificationRevision.count({ where: { transactionId: { in: [one.id, two.id] } } }),
+    ).toBe(2);
+  });
+  it('groups the complete statement, paginates members and leaves exclusions untouched', async () => {
+    const statement = await db.statement.create({
+      data: { userId, fingerprint: randomUUID(), status: 'extracted' },
+    });
+    await db.transaction.createMany({
+      data: Array.from({ length: 105 }, () => ({
+        userId,
+        statementId: statement.id,
+        sourceRow: `group:${randomUUID()}`,
+        date: new Date('2026-10-15'),
+        description: 'TRANSFER RENT',
+        amount: '100.01',
+        direction: 'debit',
+        recipientHash: 'synthetic-group-recipient',
+        status: 'requires_user_tagging',
+      })),
+    });
+    await db.transaction.create({
+      data: {
+        userId,
+        statementId: statement.id,
+        sourceRow: randomUUID(),
+        date: new Date('2026-10-15'),
+        description: 'TRANSFER TUITION',
+        amount: '100.01',
+        direction: 'debit',
+        recipientHash: 'synthetic-group-recipient',
+        status: 'requires_user_tagging',
+      },
+    });
+    const endpoint = `/api/moneylens/classification/review-groups?statementId=${statement.id}`;
+    const groups = await request(app.getHttpServer())
+      .get(endpoint)
+      .auth(token, { type: 'bearer' })
+      .expect(200);
+    expect(groups.body.transactionCount).toBe(106);
+    expect(groups.body.groupCount).toBe(2);
+    const group = groups.body.items.find((g: { count: number }) => g.count === 105);
+    expect(group.totalAmount).toBe('10501.05');
+    expect(group.memoryEligible).toBe(true);
+    const membersPath = `/api/moneylens/classification/review-groups/${group.key}/transactions?statementId=${statement.id}`;
+    const members = await request(app.getHttpServer())
+      .get(membersPath)
+      .auth(token, { type: 'bearer' })
+      .expect(200);
+    expect(members.body.items).toHaveLength(100);
+    const more = await request(app.getHttpServer())
+      .get(`${membersPath}&cursor=${members.body.nextCursor}`)
+      .auth(token, { type: 'bearer' })
+      .expect(200);
+    expect(more.body.items).toHaveLength(5);
+    await request(app.getHttpServer())
+      .get(endpoint)
+      .auth(secondToken, { type: 'bearer' })
+      .expect(404);
+    const selected = members.body.items
+      .slice(0, 2)
+      .map((t: { transactionId: string; revision: number }) => ({
+        transactionId: t.transactionId,
+        revision: t.revision,
+      }));
+    await request(app.getHttpServer())
+      .post('/api/moneylens/transactions/classification/bulk')
+      .auth(token, { type: 'bearer' })
+      .send({ items: selected, category: 'housing' })
+      .expect(201);
+    expect(
+      await db.transaction.count({
+        where: { statementId: statement.id, status: 'requires_user_tagging' },
+      }),
+    ).toBe(104);
+    const summary = await request(app.getHttpServer())
+      .get(`/api/moneylens/classification/summary?statementId=${statement.id}`)
+      .auth(token, { type: 'bearer' })
+      .expect(200);
+    expect(summary.body.transactionCount).toBe(106);
+    expect(summary.body.unresolvedTransactionCount).toBe(104);
+    expect(summary.body.classifiedExpenseAmount).toBe('200.02');
+    expect(summary.body.analysisComplete).toBe(false);
+  });
+  it('does not group generic redacted transfers or offer name-only future memory', async () => {
+    const statement = await db.statement.create({
+      data: { userId, fingerprint: randomUUID(), status: 'extracted' },
+    });
+    for (const description of [
+      'TRANSFER [REDACTED]',
+      'TRANSFER [REDACTED]',
+      'TRANSFER EXAMPLE PERSON',
+      'TRANSFER EXAMPLE PERSON',
+    ])
+      await db.transaction.create({
+        data: {
+          userId,
+          statementId: statement.id,
+          sourceRow: randomUUID(),
+          date: new Date('2026-10-15'),
+          description,
+          amount: '10',
+          direction: 'debit',
+          status: 'requires_user_tagging',
+        },
+      });
+    const groups = await request(app.getHttpServer())
+      .get(`/api/moneylens/classification/review-groups?statementId=${statement.id}`)
+      .auth(token, { type: 'bearer' })
+      .expect(200);
+    expect(groups.body.items.map((g: { count: number }) => g.count).sort()).toEqual([1, 1, 2]);
+    expect(groups.body.items.every((g: { memoryEligible: boolean }) => !g.memoryEligible)).toBe(
+      true,
+    );
+  });
+  it('preserves only scoped identifier hashes through OCR import and draft review', async () => {
+    const recipientIdentifier = '999:1234567890';
+    const accountIdentifier = '999:0987654321';
+    const fetch = vi
+      .fn()
+      .mockImplementation(() =>
+        ocrReply([{ ...row, recipientIdentifier, accountIdentifier }, secondRow]),
+      );
+    vi.stubGlobal('fetch', fetch);
+    app.get(Config).values.MISTRAL_OCR_ENABLED = true;
+    const file = await statementPdf('local', `Identity evidence ${randomUUID()}`);
+    const imported = await request(app.getHttpServer())
+      .post('/api/moneylens/statements/extract')
+      .auth(token, { type: 'bearer' })
+      .attach('document', file, 'identities.pdf')
+      .expect(201);
+    const saved = await db.transaction.findUniqueOrThrow({
+      where: { id: imported.body.transactionIds[0] },
+    });
+    const privacy = app.get(Privacy);
+    expect(saved.recipientHash).toBe(privacy.hash(userId, 'recipient', recipientIdentifier));
+    expect(saved.accountHash).toBe(privacy.hash(userId, 'account', accountIdentifier));
+    expect(JSON.stringify(saved)).not.toContain('1234567890');
+    const draft = await request(app.getHttpServer())
+      .post('/api/moneylens/statements/extraction-drafts')
+      .auth(token, { type: 'bearer' })
+      .attach('document', file, 'identities.pdf')
+      .expect(201);
+    const draftRow = await db.statementExtractionRow.findFirstOrThrow({
+      where: { draftId: draft.body.id, position: 0 },
+    });
+    expect(draftRow.recipientIdentifier).toBeNull();
+    expect(draftRow.accountIdentifier).toBeNull();
+    expect(draftRow.recipientHash).toBe(saved.recipientHash);
+    const validated = await app
+      .get(ExtractionDraftService)
+      .getValidatedRowsForClassification(draft.body.id, {
+        userId,
+        accountScopeId: `user:${userId}`,
+      });
+    expect(validated[0].recipientHash).toBe(saved.recipientHash);
+    await request(app.getHttpServer())
+      .patch(`/api/moneylens/statements/extraction-drafts/${draft.body.id}/rows/${draftRow.id}`)
+      .auth(token, { type: 'bearer' })
+      .send({ expectedRevision: draft.body.revision, description: 'CORRECTED RECIPIENT' })
+      .expect(200);
+    expect(
+      (await db.statementExtractionRow.findUniqueOrThrow({ where: { id: draftRow.id } }))
+        .recipientHash,
+    ).toBeNull();
+  });
+  it('routes conflicting remembered purposes to review', async () => {
+    for (const category of ['housing', 'education']) {
+      const payment = await submit('NIP RENT PAYMENT', { recipientIdentifier: '999:3333333333' });
+      await request(app.getHttpServer())
+        .patch(`/api/moneylens/transactions/${payment.id}/classification`)
+        .auth(token, { type: 'bearer' })
+        .send({
+          revision: 0,
+          category,
+          rememberForFuture: true,
+          conditions: {
+            direction: 'debit',
+            currency: 'NGN',
+            minAmount: '1',
+            maxAmount: '50000',
+            narrationTokens: ['RENT'],
+          },
+        })
+        .expect(200);
+    }
+    const payment = await submit('NIP RENT PAYMENT', { recipientIdentifier: '999:3333333333' });
+    await app.get(Classifier).run(payment.id, 0);
+    expect(await db.transaction.findUniqueOrThrow({ where: { id: payment.id } })).toMatchObject({
+      status: 'requires_user_tagging',
+      reasonCode: 'CONFLICTING_USER_RULES',
+    });
+  });
+  it('imports a complete structured Paddle statement without requiring a PDF text layer', async () => {
+    const config = app.get(Config).values;
+    const previousUrl = config.PADDLE_OCR_URL;
+    const previousToken = config.PADDLE_OCR_TOKEN;
+    config.PADDLE_OCR_URL = 'http://ocr.test';
+    config.PADDLE_OCR_TOKEN = 'synthetic-table-token-with-at-least-32-characters';
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(() =>
+        Response.json({
+          contractVersion: 2,
+          pages: [
+            {
+              index: 0,
+              items: [{ text: 'Currency: NGN', x: 0, y: 10, width: 100, height: 10 }],
+              tableCoverageComplete: true,
+              tables: [
+                {
+                  rows: [
+                    ['Date', 'Narration', 'Debit NGN', 'Credit NGN', 'Balance'],
+                    ['15/10/2026', 'AIRTEL RECHARGE', '125.10', '', '874.90'],
+                    ['16/10/2026', 'Stamp Duty', '10.00', '', '864.90'],
+                  ],
+                },
+              ],
+            },
+          ],
+        }),
+      ),
+    );
+    try {
+      const response = await request(app.getHttpServer())
+        .post('/api/moneylens/statements/extract')
+        .auth(token, { type: 'bearer' })
+        .attach(
+          'document',
+          await statementPdf('scan', `Structured ${randomUUID()}`),
+          'structured-scan.pdf',
+        )
+        .expect(201);
+      expect(response.body.transactionIds).toHaveLength(2);
+      const saved = await db.transaction.findMany({
+        where: { statementId: response.body.statementId ?? response.body.id },
+        orderBy: { row: 'asc' },
+      });
+      expect(saved.map((t) => t.amount.toFixed(2))).toEqual(['125.10', '10.00']);
+    } finally {
+      config.PADDLE_OCR_URL = previousUrl;
+      config.PADDLE_OCR_TOKEN = previousToken;
+    }
   });
   it('imports locally through both routes without an OCR key', async () => {
     const config = app.get(Config).values;
@@ -565,30 +901,6 @@ integration('PostgreSQL API and privacy integration', () => {
       .auth(token, { type: 'bearer' })
       .attach('document', Buffer.from('NOT_A_PDF'), 'x.pdf')
       .expect(400);
-  });
-  it('runs durable identifier-only jobs through pg-boss', async () => {
-    const { id } = await submit('ATM CASH WITHDRAWAL');
-    const config = app.get(Config);
-    config.values.JOBS_ENABLED = true;
-    const jobs = new ClassificationJobs(db, config, app.get(Classifier));
-    try {
-      await jobs.onModuleInit();
-      await vi.waitFor(
-        async () =>
-          expect((await db.transaction.findUniqueOrThrow({ where: { id } })).category).toBe(
-            'cash_withdrawal',
-          ),
-        { timeout: 15000, interval: 200 },
-      );
-      const payloads = await db.$queryRaw<
-        { data: unknown }[]
-      >`SELECT data FROM pgboss.job WHERE name = 'classify-transaction'`;
-      for (const { data } of payloads)
-        expect(Object.keys(data as object).sort()).toEqual(['taskId', 'transactionId']);
-    } finally {
-      await jobs.onModuleDestroy();
-      config.values.JOBS_ENABLED = false;
-    }
   });
   it('links refunds only to a unique matching owned original debit', async () => {
     const original = await submit('POS SPAR', { reference: 'synthetic-refund-reference' });

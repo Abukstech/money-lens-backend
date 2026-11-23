@@ -114,11 +114,7 @@ export class Statements {
         throw new BadRequestException(code);
       }
 
-      const rows = extracted.rows.map((row) => ({
-        ...row,
-        accountIdentifier: null as string | null,
-        recipientIdentifier: null as string | null,
-      }));
+      const rows = extracted.rows;
 
       await this.db.$transaction(
         async (tx) => {

@@ -1,4 +1,3 @@
-
 import { createHash } from 'node:crypto';
 
 export interface DraftTransaction {
@@ -11,16 +10,14 @@ export interface DraftTransaction {
   reference?: string | null;
   accountIdentifier?: string | null;
   recipientIdentifier?: string | null;
+  accountHash?: string | null;
+  recipientHash?: string | null;
   page: number;
   row: number;
 }
 
-export function calculateDocumentHash(
-  buffer: Buffer,
-): string {
-  return createHash('sha256')
-    .update(buffer)
-    .digest('hex');
+export function calculateDocumentHash(buffer: Buffer): string {
+  return createHash('sha256').update(buffer).digest('hex');
 }
 
 export function calculateDraftRevision(
@@ -36,7 +33,7 @@ export function calculateDraftRevision(
   const payload = {
     version: 1,
     documentHash: documentHash.toLowerCase(),
-    transactions: rows.map(row => ({
+    transactions: rows.map((row) => ({
       date: row.date,
       description: row.description,
       amount: row.amount,
@@ -46,12 +43,13 @@ export function calculateDraftRevision(
       reference: row.reference ?? null,
       accountIdentifier: row.accountIdentifier ?? null,
       recipientIdentifier: row.recipientIdentifier ?? null,
+      // Omit absent hashes so historical draft revisions remain valid.
+      ...(row.accountHash ? { accountHash: row.accountHash } : {}),
+      ...(row.recipientHash ? { recipientHash: row.recipientHash } : {}),
       page: row.page,
       row: row.row,
     })),
   };
 
-  return createHash('sha256')
-    .update(JSON.stringify(payload))
-    .digest('hex');
+  return createHash('sha256').update(JSON.stringify(payload)).digest('hex');
 }

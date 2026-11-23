@@ -1,6 +1,7 @@
 import { ConflictException, Inject, Injectable, NotFoundException } from '@nestjs/common';
 
 import { Db } from '../../common/db';
+import { Privacy } from '../../common/privacy';
 
 import { createExtractionDraft } from './draft-persistence';
 import { getExtractionDraftForScope } from './draft-access';
@@ -19,6 +20,7 @@ export class ExtractionDraftService {
     @Inject(Db)
     private readonly prisma: Db,
     @Inject(StatementExtractor) private readonly extractor: StatementExtractor,
+    @Inject(Privacy) private readonly privacy: Privacy,
   ) {
     if (!this.prisma) {
       throw new Error('MoneyLens Db dependency was not injected');
@@ -38,6 +40,7 @@ export class ExtractionDraftService {
         signal,
         accountScopeId: actor.accountScopeId,
         createdByUserId: actor.userId,
+        hashIdentifier: (kind, value) => this.privacy.hash(actor.userId, kind, value),
       },
       (buffer, processingSignal) =>
         this.extractor.extract(buffer, processingSignal, 'DMY', deadlineAt),
@@ -97,6 +100,8 @@ export class ExtractionDraftService {
       reference: row.reference,
       accountIdentifier: row.accountIdentifier,
       recipientIdentifier: row.recipientIdentifier,
+      accountHash: row.accountHash,
+      recipientHash: row.recipientHash,
       page: row.page,
       row: row.row,
     }));

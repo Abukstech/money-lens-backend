@@ -1,3 +1,4 @@
+import { normalizeStructuredTables, type StructuredPage } from './structured-table';
 import { readPdf, type PdfTextItem } from './pdf-reader';
 import { detectLines } from './detector';
 import { parseTableLines, type ParsedTransaction } from './table-parser';
@@ -90,6 +91,53 @@ export async function prepareStatement(
   return {
     totalPages: pages.length,
     extractLocal,
+    extractStructured(recognized: StructuredPage[]) {
+      const parsed = normalizeStructuredTables(recognized, options.dateOrder);
+      const reconciliation = reconcileTransactions(parsed.rows);
+      const issues = recognized
+        .filter((page) => !page.tableCoverageComplete)
+        .map((page) => ({ page: page.index, code: 'TABLE_CONTENT_UNVERIFIED' }));
+      if (!parsed.complete && !issues.length)
+        issues.push({ page: parsed.issues[0]?.page ?? 0, code: 'TABLE_COVERAGE_INCOMPLETE' });
+      const coverage = {
+        totalCandidates: parsed.rows.length + parsed.issues.length,
+        totalParsed: parsed.rows.length,
+        issues,
+        complete: parsed.complete,
+      };
+      const evidence: ExtractionEvidence = {
+        totalPages: pages.length,
+        pagesWithText: recognized.filter(
+          (page) => page.blank || page.items.length || page.tables?.length,
+        ).length,
+        transactionCount: parsed.rows.length,
+        invalidRowCount: parsed.rows.filter((row) => !extractedRow.safeParse(row).success).length,
+        parserIssueCount: parsed.issues.length,
+        continuationCount: 0,
+        coverageComplete: coverage.complete,
+        reconciled: reconciliation.reconciled,
+        checkedPairs: reconciliation.checkedPairs,
+      };
+      const review = evaluateExtractionEvidence(evidence);
+      return {
+        status: review.decision,
+        rows: parsed.rows,
+        review,
+        diagnostics: {
+          totalPages: evidence.totalPages,
+          extractedRows: parsed.rows.length,
+          invalidRows: evidence.invalidRowCount,
+          hasUnreadablePages: evidence.pagesWithText < pages.length,
+          continuationCount: 0,
+          continuations: [],
+          parserIssues: parsed.issues,
+          coverage,
+          reconciliation,
+          reviewReasons: review.reasons,
+          extractionEvidence: evidence,
+        },
+      };
+    },
     extractRecognized(recognized: { index: number; items: PdfTextItem[] }[]) {
       const recognizedLines = detectLines(
         pages.map((page, index) => ({
